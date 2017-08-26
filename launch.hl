@@ -101,11 +101,18 @@ if:x:/@p5.web.query.get/*?value
    */
   load-file:@PEEPLES/configuration/config.hl
   set:x:/@load-file/*/*/tickets?value
-    +:x:/@load-file/*/*/tickets?value
-      _:x:/@p5.web.session.get/*?value
+    +:x:/@load-file/*/*/tickets?value.int
+      _:x:/@p5.web.session.get/*?value.int
   lambda2hyper:x:/@load-file/*/*
   save-file:@PEEPLES/configuration/config.hl
     src:x:/@lambda2hyper?value
+
+  /*
+   * Clearing session object, and redirecting user to root URL of Peeples.
+   */
+  p5.web.session.set:x:/@p5.web.query.get/*?value
+  p5.web.get-location-url
+  p5.web.set-location:x:/-?value
 
 
 
