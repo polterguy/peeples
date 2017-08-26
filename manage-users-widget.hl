@@ -1,7 +1,11 @@
 ﻿
 /*
  * Create the main widget showing users, and create new user button, etc.
+ *
+ * Optionally pass in [offset], which defaults to "0".
  */
+.defaults
+  offset:int:0
 
 
 
@@ -17,7 +21,7 @@ p5.auth.users.list
 
 
 /*
- * Applying all users into datagrid below.
+ * Helper for [apply] below.
  */
 .apply
   add:x:/../*/return
@@ -46,6 +50,7 @@ p5.auth.users.list
         widgets
           a
             href:#
+            role:button
             style:"float:right;"
             innerValue:@"<span class=""icon-trash""></span>"
             title:Delete user
@@ -118,8 +123,43 @@ p5.auth.users.list
         micro.evaluate.file:@PEEPLES/edit-user.hl
           username:x:/@_username?value
 
+
+
+
+
+/*
+ * Calculating which sub-section of users we should display.
+ */
++:x:/../*(/offset|/.defaults/*/offset)/$?value.int
+  _:int:10
+
+
+
+
+
+/*
+ * Checking if the "next" button should be disabled.
+ */
+if:x:/@p5.auth.users.list/*?count
+  <=:x:/@+?value.int
+
+  /*
+   * Next button should be disabled.
+   */
+  add:x:@"/../*/create-widget/**/innerValue/""=&gt;""/."
+    src:disabled
+
+
+
+
+
+/*
+ * Actually databinding our grid.
+ */
 apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
-  src:x:/@p5.auth.users.list/*
+  src:x:/@p5.auth.users.list/*/[{0},{1}]
+    :x:/../*(/offset|/.defaults/*/offset)/$?value.int
+    :x:/@+?value
   template
     item
       {@eval}:x:/@.apply
@@ -131,6 +171,7 @@ apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
 /*
  * Creating a grid, displaying all users in system.
  */
+eval-x:x:/+/**/.offset
 create-widget:peeples-users
   parent:peeples-main-container
   class:row air-top
@@ -292,3 +333,83 @@ create-widget:peeples-users
                 Delete
                   style:"float:right;"
               rows
+
+            /*
+             * Pager button wrapper.
+             */
+            div
+              class:right
+              widgets
+                div
+                  .offset:x:/../*(/offset|/.defaults/*/offset)/$?value
+                  class:strip
+                  style:"display:inline-block;"
+                  widgets
+                    button
+                      innerValue:&lt;
+                      oninit
+
+                        /*
+                         * Checking if [.offset] is zero, and if so, disabling
+                         * the previous button.
+                         */
+                        p5.web.widgets.find-first-ancestor:x:/../*/_event?value
+                          .offset
+                        get-widget-property:x:/@p5.web.widgets.find-first-ancestor/*/*?value
+                          .offset
+                        if:x:/@get-widget-property/*/*?value.int
+                          =:int:0
+
+                          /*
+                           * Disabling button.
+                           */
+                          set-widget-property:x:/../*/_event?value
+                            disabled
+
+                      onclick
+
+                        /*
+                         * Paging to previous page.
+                         */
+                        p5.web.widgets.find-first-ancestor:x:/../*/_event?value
+                          .offset
+                        get-widget-property:x:/@p5.web.widgets.find-first-ancestor/*/*?value
+                          .offset
+                        -:x:/@get-widget-property/*/*?value.int
+                          _:int:10
+
+                        /*
+                         * For simplicity, simply invoking main launch file again,
+                         * now with offset incremented by 10.
+                         *
+                         * TODO: This should seriously be considered for refactoring!!
+                         */
+                        clear-widget:peeples-main-container
+                        eval-x:x:/+/*
+                        micro.evaluate.file:@PEEPLES/manage-users-widget.hl
+                          offset:x:/@-?value
+
+                    button
+                      innerValue:&gt;
+                      onclick
+
+                        /*
+                         * Paging to next page.
+                         */
+                        p5.web.widgets.find-first-ancestor:x:/../*/_event?value
+                          .offset
+                        get-widget-property:x:/@p5.web.widgets.find-first-ancestor/*/*?value
+                          .offset
+                        +:x:/@get-widget-property/*/*?value.int
+                          _:int:10
+
+                        /*
+                         * For simplicity, simply invoking main launch file again,
+                         * now with offset incremented by 10.
+                         *
+                         * TODO: This should seriously be considered for refactoring!!
+                         */
+                        clear-widget:peeples-main-container
+                        eval-x:x:/+/*
+                        micro.evaluate.file:@PEEPLES/manage-users-widget.hl
+                          offset:x:/@+?value

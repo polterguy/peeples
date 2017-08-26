@@ -11,6 +11,8 @@ create-widgets
       p
         innerValue:@"Choose how many additional user tickets you want to purchase. When you click OK, you will be taken to PayPal to finish your purchase.
 Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
+      p
+        innerValue:@"You will be charged €10 per user for a Home installation, and €50 per user for a professional installation."
       micro.widgets.wizard-form:peeples-purchase-new-users
         select:peeples-no-users
           info:Tickets
@@ -26,10 +28,10 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
         radio-group:peeples-user-type
           .data-field:type
           options
-            Home user:home
+            Home installation:home
               .data-field-value:home
               checked
-            Professional user (including professional support):professional
+            Professional installation (including professional support):professional
               .data-field-value:professional
           
       div
