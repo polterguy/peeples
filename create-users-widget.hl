@@ -1,9 +1,78 @@
 ﻿
 /*
- * Create the main widget encapsulating the users grid, and create new user button,
- * etc.
+ * Create the main widget showing users, and create new user button, etc.
  */
-create-widget
+
+
+
+
+
+/*
+ * Listing all users in system.
+ */
+p5.auth.users.list
+
+
+
+
+
+/*
+ * Applying all users into datagrid below.
+ */
+.apply
+  add:x:/../*/return
+    src:@"Username:{0}"
+      :x:/@_dn/#?name
+  add:x:/../*/return
+    src:@"Role:{0}"
+      :x:/@_dn/#?value
+  return
+apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
+  src:x:/@p5.auth.users.list/*
+  template
+    item
+      {@eval}:x:/@.apply
+
+
+
+
+
+/*
+ * Creating a grid, displaying all users in system.
+ */
+create-widget:peeples-users
   parent:peeples-main-container
-  element:h3
-  innerValue:Foo bar
+  class:row
+  widgets
+
+    /*
+     * Main wrapper for creating new users.
+     */
+    div
+      class:col-50
+      widgets
+        div
+          class:shaded rounded air-inner
+          widgets
+            micro.widgets.wizard-form:peeples-add-wizard
+              text:peeples-add-wizard-username
+                info:Username
+                .data-field:username
+              text:peeples-add-wizard-role
+                info:Role
+                .data-field:role
+
+    /*
+     * Main wrapper for displaying existing users.
+     */
+    div
+      class:col-50
+      widgets
+        div
+          class:shaded rounded air-inner
+          widgets
+            micro.widgets.grid:peeples-grid
+              columns
+                Username
+                Role
+              rows
