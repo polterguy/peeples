@@ -174,8 +174,23 @@ apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
 eval-x:x:/+/**/.offset
 create-widget:peeples-users
   parent:peeples-main-container
-  class:row air-top
+  class:row
   widgets
+    div
+      class:col-100
+      widgets
+        div
+          class:right
+          widgets
+            button
+              innerValue:@"<span class=""icon-close""></span>"
+              onclick
+
+                /*
+                 * Redirecting to root location.
+                 */
+                p5.web.get-root-location
+                p5.web.set-location:x:/-?value
 
     /*
      * Main wrapper for creating new users.
