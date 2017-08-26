@@ -42,7 +42,7 @@ apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
  */
 create-widget:peeples-users
   parent:peeples-main-container
-  class:row
+  class:row air-top
   widgets
 
     /*
@@ -58,9 +58,60 @@ create-widget:peeples-users
               text:peeples-add-wizard-username
                 info:Username
                 .data-field:username
+                onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+                oninit
+
+                  /*
+                   * Making sure we set initial focus to username texbox.
+                   */
+                  micro.page.set-focus:x:/../*/_event?value
+
               text:peeples-add-wizard-role
                 info:Role
                 .data-field:role
+                onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+              hr
+              text:peeples-add-wizard-pwd
+                info:Password
+                .data-field:password
+                type:password
+                onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+              text:peeples-add-wizard-pwd-repeat
+                info:Repeat
+                .data-field:password-repeat
+                type:password
+                onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+              div
+                class:right
+                widgets
+                  button:peeples-create-user-btn
+                    title:Create new user
+                    style:"margin-bottom:0;width:120px;"
+                    innerValue:@"<span class=""icon-plus""></plus>"
+                    onclick
+
+                      /*
+                       * Serializing wizard form, and creating user, making sure
+                       * we do it within a try/catch block, in case of exceptions.
+                       */
+                      micro.widgets.wizard-form.value:peeples-add-wizard
+                      try
+
+                        /*
+                         * Creating user.
+                         */
+                        eval-x:x:/+/*
+                        p5.auth.users.create:x:/@micro.widgets.wizard-form.value/*/username?value
+                          role:x:/@micro.widgets.wizard-form.value/*/role?value
+                          password:x:/@micro.widgets.wizard-form.value/*/password?value
+
+                      catch
+
+                        /*
+                         * Displaying error to user.
+                         */
+                        micro.windows.info:x:/..catch/*/message?value
+                          class:micro-windows-info warning
 
     /*
      * Main wrapper for displaying existing users.
