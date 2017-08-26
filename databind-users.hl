@@ -1,0 +1,198 @@
+﻿
+/*
+ * Databinds the users grid.
+ *
+ * Optionally pass in [offset], which defaults to "0".
+ */
+.defaults
+  offset:int:0
+
+
+
+
+
+/*
+ * Listing all users in system.
+ */
+p5.auth.users.list
+
+
+
+
+
+/*
+ * Helper for [apply] below.
+ */
+.apply
+  add:x:/../*/return
+    src:@"Username:{0}"
+      :x:/@_dn/#?name
+  add:x:/../*/return
+    src:@"Role:{0}"
+      :x:/@_dn/#?value
+  if:x:/@_dn/#?name
+    =:root
+
+    /*
+     * For security reasons, we don't allow deletion of main "root" account.
+     */
+    set:x:/../*/add/**/Delete/*/widgets/*/a/*/onclick
+    add:x:/../*/add/**/Delete/*/widgets/*/a
+      src
+        onclick
+          micro.windows.info:Sorry, this account cannot be deleted!
+            class:micro-windows-info warning
+
+  eval-x:x:/+/**/_username
+  add:x:/../*/return
+    src
+      Delete
+        widgets
+          a
+            href:#
+            role:button
+            style:"float:right;"
+            innerValue:@"<span class=""icon-trash""></span>"
+            title:Delete user
+            onclick
+
+              /*
+               * Asks user to confirm deletion of user.
+               */
+              _username:x:/@_dn/#?name
+              eval-x:x:/+/*/*/*/h3/*/innerValue
+              create-widgets
+                micro.widgets.modal:peeples-confirm-deletion-of-user
+                  widgets
+                    h3
+                      innerValue:Confirm deletion of '{0}'
+                        :x:/@_username?value
+                    p
+                      innerValue:Are you sure you want to delete this user? This action will delete all of user's files, and is final.
+                    div
+                      class:right
+                      widgets
+                        div
+                          class:strip
+                          style:"display:inline-block;"
+                          widgets
+                            button
+                              style:"margin-bottom:0;"
+                              innerValue:Yes
+                              onclick
+
+                                /*
+                                 * Deletes user and re-evaluates launch file for
+                                 * simplicity.
+                                 */
+                                _username:x:/@_dn/#?name
+                                p5.auth.users.delete:x:/@_username?value
+                                micro.evaluate.file:@PEEPLES/launch.hl
+
+                            button
+                              style:"margin-bottom:0;"
+                              innerValue:No
+                              oninit
+
+                                /*
+                                 * Making sure "No" button has initial focus.
+                                 */
+                                micro.page.set-focus:x:/../*/_event?value
+
+                              onclick
+
+                                /*
+                                 * Deletes modal widget.
+                                 */
+                                delete-widget:peeples-confirm-deletion-of-user
+
+  /*
+   * Returning row to caller, forward evaluating [_username] inside of onclick
+   * of row first.
+   */
+  eval-x:x:/+/*/.row/**/_username
+  return
+    .row
+      onclick
+
+        /*
+         * Evaluates file responsible for editing existing user.
+         */
+        _username:x:/@_dn/#?name
+        eval-x:x:/+/*
+        micro.evaluate.file:@PEEPLES/edit-user.hl
+          username:x:/@_username?value
+
+
+
+
+
+/*
+ * Calculating which sub-section of users we should display.
+ */
++:x:/../*(/offset|/.defaults/*/offset)/$?value.int
+  _:int:10
+
+
+
+
+
+/*
+ * Checking if the "next" and "previous" buttons should be disabled.
+ */
+if:x:/@p5.auth.users.list/*?count
+  <=:x:/@+?value.int
+
+  /*
+   * Next button should be disabled.
+   */
+  set-widget-property:peeples-next-btn
+    disabled
+
+else
+
+  /*
+   * Next button should be enabled.
+   */
+  delete-widget-property:peeples-next-btn
+    disabled
+if:x:/../*(/offset|/.defaults/*/offset)/$?value.int
+  =:int:0
+
+  /*
+   * Previous button should be disabled.
+   */
+  set-widget-property:peeples-previous-btn
+    disabled
+
+else
+
+  /*
+   * Previous button should be enabled.
+   */
+  delete-widget-property:peeples-previous-btn
+    disabled
+
+
+
+
+
+/*
+ * Actually databinding our grid.
+ */
+apply:x:/../*/micro.widgets.grid.databind
+  src:x:/@p5.auth.users.list/*/[{0},{1}]
+    :x:/../*(/offset|/.defaults/*/offset)/$?value.int
+    :x:/@+?value
+  template
+    item
+      {@eval}:x:/@.apply
+
+
+
+
+
+/*
+ * Creating a grid, displaying all users in system.
+ */
+micro.widgets.grid.databind:peeples-grid
