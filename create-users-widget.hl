@@ -26,6 +26,38 @@ p5.auth.users.list
   add:x:/../*/return
     src:@"Role:{0}"
       :x:/@_dn/#?value
+  if:x:/@_dn/#?name
+    =:root
+
+    /*
+     * For security reasons, we don't allow deletion of main "root" account.
+     */
+    set:x:/../*/add/**/Delete/*/widgets/*/a/*/onclick
+    add:x:/../*/add/**/Delete/*/widgets/*/a
+      src
+        onclick
+          micro.windows.info:Sorry, this account cannot be deleted!
+            class:micro-windows-info warning
+
+  eval-x:x:/+/**/_username
+  add:x:/../*/return
+    src
+      Delete
+        widgets
+          a
+            href:#
+            style:"float:right;"
+            innerValue:@"<span class=""icon-trash""></span>"
+            title:Delete user
+            onclick
+
+              /*
+               * Deletes user, and re-evaluates file for simplicity.
+               */
+              _username:x:/@_dn/#?name
+              p5.auth.users.delete:x:/@_username?value
+              micro.evaluate.file:@PEEPLES/launch.hl
+
   return
 apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
   src:x:/@p5.auth.users.list/*
@@ -126,4 +158,6 @@ create-widget:peeples-users
               columns
                 Username
                 Role
+                Delete
+                  style:"float:right;"
               rows
