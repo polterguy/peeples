@@ -1,0 +1,31 @@
+
+/*
+ * Configuration for the Peeples module.
+ *
+ * Please don't edit this value!
+ *
+ * I realize I put a lot of faith into my users, by having such a naive licensing
+ * scheme, but since the system is Open Source, any amounts of "anti-piracy scheme"
+ * I could possibly create, would anyways be easily "cracked" within minutes.
+ *
+ * I have therefor completely avoided creating any complex anti-piracy schemes,
+ * to make the system more easily maintained, and understood by others.
+ *
+ * I have spent a large portion of my life building and creating Phosphorus Five,
+ * and chosen to give it away as Free and Open Source Software, because I believe
+ * in sharing innovation.
+ *
+ * However, if I were to calculate the money I have made so far, we would be 
+ * talking about roughly 1 cent for each 100 hours of work.
+ *
+ * I would therefor like to encourage you, to actually pay me the small price
+ * I am asking of you, to be able to add additional users into your system.
+ *
+ * This ensures that I can spend more time fixing bugs, creating features, and
+ * making the system more stable in general.
+ *
+ * By purchasing your users, through the correct legal channels, instead of "hacking it",
+ * to use it for free - You are supporting me, in my work, such that I can continue
+ * creating Free Software, changing the world, one line of code at the time.
+ */
+tickets:int:5

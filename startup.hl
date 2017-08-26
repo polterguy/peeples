@@ -26,12 +26,3 @@ eval-x:x:/+/*
 create-event:p5.io.unroll-path.@PEEPLES
   return:/{0}
     :x:/@join?value
-
-
-
-
-
-/*
- * Evaluating all startup scripts.
- */
-micro.evaluate.folder:@PEEPLES/startup/

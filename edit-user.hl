@@ -45,12 +45,20 @@ create-widgets
       h3
         innerValue:Edit user
       micro.widgets.wizard-form:peeples-edit-user-wizard
+
+        /*
+         * Username textbox, notice this widget is "readonly".
+         */
         text:peeples-edit-username
           info:Username
           .data-field:username
           value:x:/../*/username?value
           readonly:true
           title:The username cannot be changed once the user has been created
+
+        /*
+         * User's role textbox.
+         */
         text:peeples-edit-role
           info:Role
           .data-field:role
@@ -62,6 +70,10 @@ create-widgets
              * Making sure we set initial focus to user's role.
              */
             micro.page.set-focus:x:/../*/_event?value
+
+        /*
+         * User's password textbox.
+         */
         text:peeples-edit-password
           info:Password
           .data-field:password
@@ -69,6 +81,10 @@ create-widgets
           onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
           title:If you leave the password blank, the password will not be changed
           autocomplete:new-password
+
+        /*
+         * User's password repeat textbox.
+         */
         text:peeples-edit-password-repeat
           info:Repeat
           .data-field:password-repeat
@@ -76,6 +92,10 @@ create-widgets
           onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
           title:If you leave the password blank, the password will not be changed
           autocomplete:new-password
+
+      /*
+       * Wrapper for "Save" and "Close" buttons.
+       */
       div
         class:right
         widgets

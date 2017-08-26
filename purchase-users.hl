@@ -1,0 +1,76 @@
+
+/*
+ * Allows user to purchase more users.
+ */
+create-widgets
+  micro.widgets.modal:peeples-purchase-users
+    class:micro-modal micro-modal-smaller
+    widgets
+      h3
+        innerValue:Purchase additional user tickets?
+      p
+        innerValue:@"You have exceeded your free tickets, and you'll have to purchase additional user tickets, to be able to create more users.
+Choose how many additional user tickets you want to purchase below. When you click OK, you will be taken to PayPal to finish your purchase."
+      p
+        innerValue:@"Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
+      micro.widgets.wizard-form:peeples-purchase-new-users
+        select:peeples-no-users
+          info:Tickets
+          .data-field:users
+          options
+            5:5
+            10:10
+            15:15
+            25:25
+            50:50
+            100:100
+      div
+        class:right
+        widgets
+          div
+            class:strip
+            style:"display:inline-block;"
+            widgets
+              button
+                innerValue:OK
+                style:"margin-bottom:0;"
+                onclick
+
+                  /*
+                   * Retrieving numbers of additional tickets that the user wants
+                   * to purchase, storing it in session, associated with a random GUID,
+                   * redirecting to PayPal, making sure once purchasing process is
+                   * approved, PayPal will redirect back to current URL, and update the tickets
+                   * for the current installation, thx to having PayPal add an additional
+                   * HTTP GET parameter, which will be checked during loading of page,
+                   * and if it exists, it will add that many new user tickets to the system.
+                   */
+                  micro.widgets.wizard-form.value:peeples-purchase-new-users
+                  p5.types.guid.new
+                  p5.web.session.set:x:/@p5.types.guid.new?value
+                    src:x:/@micro.widgets.wizard-form.value/*/users?value
+
+                  /*
+                   * Now we can redirect to PayPal, making sure PayPal redirects back
+                   * to current URL once the purchase has been paid.
+                   */
+                  p5.web.get-root-location
+                  p5.web.send-javascript:@"
+var f = document.createElement('div');
+f.innerHTML = '<form id=""paypal_form"" action=""https://www.paypal.com/cgi-bin/webscr"" method=""post""><input type=""hidden"" name=""cmd"" value=""_s-xclick""><input type=""hidden"" name=""hosted_button_id"" value=""{0}""><input type=""hidden"" name=""quantity"" value=""{3}""><input type=""hidden"" name=""return"" value=""{1}/peeples?users={2}""><img alt="""" border=""0"" src=""https://www.paypalobjects.com/en_US/i/scr/pixel.gif"" width=""1"" height=""1""></form>';
+document.body.appendChild(f);
+document.forms['paypal_form'].submit();"
+                    :Q8C7D622QHFFG
+                    :x:/@p5.web.get-root-location?value
+                    :x:/@p5.types.guid.new?value
+                    :x:/@micro.widgets.wizard-form.value/*/users?value
+
+              button
+                innerValue:Close
+                style:"margin-bottom:0;"
+                onclick
+
+                  /*
+                   * Closing modal widget.
+                   */
+                  delete-widget:peeples-purchase-users

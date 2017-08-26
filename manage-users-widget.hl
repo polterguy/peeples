@@ -186,6 +186,22 @@ create-widget:peeples-users
                     onclick
 
                       /*
+                       * Verifying user hasn't created more users already than what he
+                       * is allowed to, according to his configuration settings.
+                       */
+                      p5.auth.users.list
+                      load-file:@PEEPLES/configuration/config.hl
+                      if:x:/@p5.auth.users.list/*?count
+                        >=:x:/@load-file/*/*/tickets?value.int
+
+                        /*
+                         * User has exceeded his license terms, invoking file responsible
+                         * for allowing him to purchase additional users, and returning early.
+                         */
+                        micro.evaluate.file:@PEEPLES/purchase-users.hl
+                        return
+
+                      /*
                        * Serializing wizard form, and creating user, making sure
                        * we do it within a try/catch block, in case of exceptions.
                        */
