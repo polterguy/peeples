@@ -1,0 +1,167 @@
+﻿
+/*
+ * File responsible for editing an existing user.
+ *
+ * Requires [username] being the username of user to edit.
+ */
+
+
+
+
+
+/*
+ * Checking username, and disallowing editing of "root" account.
+ */
+if:x:/../*/username?value
+  =:root
+
+  /*
+   * The system "root" account is not possible to edit!
+   */
+  micro.windows.info:Sorry, the system root account cannot be edited
+    class:micro-windows-info warning
+  return
+
+
+
+
+
+/*
+ * Retrieving user's essential information.
+ */
+p5.auth.users.get:x:/../*/username?value
+
+
+
+
+
+/*
+ * Creating a modal widget which allows the user to edit the currently selected user.
+ */
+eval-x:x:/+/*/*/*/micro.widgets.wizard-form/*/value
+create-widgets
+  micro.widgets.modal:peeples-edit-user-modal
+    widgets
+      h3
+        innerValue:Edit user
+      micro.widgets.wizard-form:peeples-edit-user-wizard
+        text:peeples-edit-username
+          info:Username
+          .data-field:username
+          value:x:/../*/username?value
+          readonly:true
+          title:The username cannot be changed once the user has been created
+        text:peeples-edit-role
+          info:Role
+          .data-field:role
+          value:x:/@p5.auth.users.get/*/*/role?value
+          onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
+          oninit
+
+            /*
+             * Making sure we set initial focus to user's role.
+             */
+            micro.page.set-focus:x:/../*/_event?value
+        text:peeples-edit-password
+          info:Password
+          .data-field:password
+          type:password
+          onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
+          title:If you leave the password blank, the password will not be changed
+          autocomplete:new-password
+        text:peeples-edit-password-repeat
+          info:Repeat
+          .data-field:password-repeat
+          type:password
+          onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
+          title:If you leave the password blank, the password will not be changed
+          autocomplete:new-password
+      div
+        class:right
+        widgets
+          div
+            class:strip
+            style:"display:inline-block;"
+            widgets
+              button:peeples-edit-user-save-btn
+                innerValue:Save
+                style:"margin-bottom:0;"
+                onclick
+
+                  /*
+                   * Serializing wizard form, updating user, and closing modal widget.
+                   */
+                  micro.widgets.wizard-form.value:peeples-edit-user-wizard
+
+                  /*
+                   * Verifying passwords, if given, are matching.
+                   */
+                  if:x:/@micro.widgets.wizard-form.value/*(/password|/password-repeat)/=$?count
+                    !=:int:1
+
+                    /*
+                     * A new password was given, and the passwords did not match.
+                     */
+                    micro.windows.info:The passwords did not match
+                      class:micro-windows-info warning
+                    return
+
+                  /*
+                   * Updating user.
+                   *
+                   * Notice, if password is empty, it won't be changed.
+                   *
+                   * Also notice, in order to preserver user's old settings, we'll
+                   * need to fetch them explicitly, and append them into our update invocation.
+                   */
+                  p5.auth.users.get:x:/@micro.widgets.wizard-form.value/*/username?value
+
+                  /*
+                   * Adding role, which might have changed.
+                   */
+                  add:x:/../*/p5.auth.users.edit
+                    src:x:/@micro.widgets.wizard-form.value/*/role
+
+                  /*
+                   * Checking if password was left non-blank.
+                   */
+                  if:x:/@micro.widgets.wizard-form.value/*/password?value
+                    !=:
+
+                    /*
+                     * Password was not empty, making sure we add it to edit invocation.
+                     */
+                    add:x:/../*/p5.auth.users.edit
+                      src:x:/@micro.widgets.wizard-form.value/*/password
+
+                  /*
+                   * Adding all other user specific settings.
+                   */
+                  add:x:/../*/p5.auth.users.edit
+                    src:x:/../*/p5.auth.users.get/*/*(!/role)
+
+                  /*
+                   * Updating user.
+                   */
+                  p5.auth.users.edit:x:/@micro.widgets.wizard-form.value/*/username?value
+
+                  /*
+                   * Deleting modal widget.
+                   */
+                  delete-widget:peeples-edit-user-modal
+
+                  /*
+                   * For simplicity reasons, we simply reload "launch.hl" file,
+                   * which will do a new databinding of main widget.
+                   */
+                  micro.evaluate.file:@PEEPLES/launch.hl
+
+              button
+                innerValue:Close
+                style:"margin-bottom:0;"
+                onclick
+
+                  /*
+                   * Deleting modal widget.
+                   */
+                  delete-widget:peeples-edit-user-modal

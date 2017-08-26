@@ -109,10 +109,14 @@ p5.auth.users.list
   return
     .row
       onclick
+
+        /*
+         * Evaluates file responsible for editing existing user.
+         */
         _username:x:/@_dn/#?name
-        create-widget
-          element:pre
-          innerValue:x:/..
+        eval-x:x:/+/*
+        micro.evaluate.file:@PEEPLES/edit-user.hl
+          username:x:/@_username?value
 
 apply:x:/../*/create-widget/**/micro.widgets.grid/*/rows
   src:x:/@p5.auth.users.list/*
