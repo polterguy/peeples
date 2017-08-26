@@ -1,0 +1,9 @@
+﻿
+/*
+ * Create the main widget encapsulating the users grid, and create new user button,
+ * etc.
+ */
+create-widget
+  parent:peeples-main-container
+  element:h3
+  innerValue:Foo bar

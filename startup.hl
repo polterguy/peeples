@@ -1,0 +1,37 @@
+
+/*
+ * Startup file for Peeples.
+ *
+ * This file is evaluated every time the server restarts, or the web server process is recycled for any reasons.
+ */
+
+
+
+
+
+/*
+ * Creates the "path" Active Event that points to our "/peeples/" folder.
+ * This is done in such a way that we can put Peeples into any folder we wish.
+ *
+ * Notice, in theory we could have used [micro.path.get-folder] here, but that won't work,
+ * since technically all startup files are evaluated in an "undefined order", and we don't
+ * know if Micro has already been initialised at this point or not.
+ */
+split:x:/..?name
+  =:/
+set:x:/@split/0/-
+join:x:/@split/*?name
+  sep:/
+eval-x:x:/+/*
+create-event:p5.io.unroll-path.@PEEPLES
+  return:/{0}
+    :x:/@join?value
+
+
+
+
+
+/*
+ * Evaluating all startup scripts.
+ */
+micro.evaluate.folder:@PEEPLES/startup/
