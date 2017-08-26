@@ -71,6 +71,10 @@ create-widgets
              */
             micro.page.set-focus:x:/../*/_event?value
 
+        hr
+        p
+          innerValue:If you leave the password blank, it will not be changed.
+
         /*
          * User's password textbox.
          */

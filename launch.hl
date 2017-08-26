@@ -82,6 +82,36 @@ p5.web.include-css-file:@PEEPLES/media/main.css
 
 
 /*
+ * Checking if this is a redirect from PayPal, after having purchased additional
+ * user tickets.
+ */
+p5.web.query.get:new-tickets
+if:x:/@p5.web.query.get/*?value
+
+  /*
+   * This is a redirect from PayPal, and use has finalized his purchase.
+   *
+   * Figuring out how many tickets user purchased.
+   */
+  p5.web.session.get:x:/@p5.web.query.get/*?value
+
+  /*
+   * Loading configuration file, adding newly acquired tickets, 
+   * and saving it again.
+   */
+  load-file:@PEEPLES/configuration/config.hl
+  set:x:/@load-file/*/*/tickets?value
+    +:x:/@load-file/*/*/tickets?value
+      _:x:/@p5.web.session.get/*?value
+  lambda2hyper:x:/@load-file/*/*
+  save-file:@PEEPLES/configuration/config.hl
+    src:x:/@lambda2hyper?value
+
+
+
+
+
+/*
  * Creates widget that constantly polls server every n'th second to
  * check if new emails have arrived.
  */

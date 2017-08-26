@@ -9,10 +9,8 @@ create-widgets
       h3
         innerValue:Purchase additional user tickets?
       p
-        innerValue:@"You have exceeded your free tickets, and you'll have to purchase additional user tickets, to be able to create more users.
-Choose how many additional user tickets you want to purchase below. When you click OK, you will be taken to PayPal to finish your purchase."
-      p
-        innerValue:@"Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
+        innerValue:@"Choose how many additional user tickets you want to purchase. When you click OK, you will be taken to PayPal to finish your purchase.
+Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
       micro.widgets.wizard-form:peeples-purchase-new-users
         select:peeples-no-users
           info:Tickets
@@ -20,10 +18,20 @@ Choose how many additional user tickets you want to purchase below. When you cli
           options
             5:5
             10:10
-            15:15
             25:25
             50:50
             100:100
+            250:250
+            500:500
+        radio-group:peeples-user-type
+          .data-field:type
+          options
+            Home user:home
+              .data-field-value:home
+              checked
+            Professional user (including professional support):professional
+              .data-field-value:professional
+          
       div
         class:right
         widgets
@@ -54,13 +62,28 @@ Choose how many additional user tickets you want to purchase below. When you cli
                    * Now we can redirect to PayPal, making sure PayPal redirects back
                    * to current URL once the purchase has been paid.
                    */
+                  _type:Q8C7D622QHFFG
+                  if:x:/@micro.widgets.wizard-form.value/*/type?value
+                    =:home
+
+                    /*
+                     * This is a "home" installation, making sure we reduce price accordingly,
+                     * by changing the PayPal product.
+                     */
+                    set:x:/@_type?value
+                      src:4H892NXCMY23J
+
+                  /*
+                   * Figuring out root location, such that we know where to redirect
+                   * user after purchase has been placed.
+                   */
                   p5.web.get-root-location
                   p5.web.send-javascript:@"
 var f = document.createElement('div');
-f.innerHTML = '<form id=""paypal_form"" action=""https://www.paypal.com/cgi-bin/webscr"" method=""post""><input type=""hidden"" name=""cmd"" value=""_s-xclick""><input type=""hidden"" name=""hosted_button_id"" value=""{0}""><input type=""hidden"" name=""quantity"" value=""{3}""><input type=""hidden"" name=""return"" value=""{1}/peeples?users={2}""><img alt="""" border=""0"" src=""https://www.paypalobjects.com/en_US/i/scr/pixel.gif"" width=""1"" height=""1""></form>';
+f.innerHTML = '<form id=""paypal_form"" action=""https://www.paypal.com/cgi-bin/webscr"" method=""post""><input type=""hidden"" name=""cmd"" value=""_s-xclick""><input type=""hidden"" name=""hosted_button_id"" value=""{0}""><input type=""hidden"" name=""quantity"" value=""{3}""><input type=""hidden"" name=""return"" value=""{1}/peeples?new-tickets={2}""><img alt="""" border=""0"" src=""https://www.paypalobjects.com/en_US/i/scr/pixel.gif"" width=""1"" height=""1""></form>';
 document.body.appendChild(f);
 document.forms['paypal_form'].submit();"
-                    :Q8C7D622QHFFG
+                    :x:/@_type?value
                     :x:/@p5.web.get-root-location?value
                     :x:/@p5.types.guid.new?value
                     :x:/@micro.widgets.wizard-form.value/*/users?value

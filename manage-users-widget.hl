@@ -146,6 +146,41 @@ create-widget:peeples-users
           class:shaded rounded air-inner
           widgets
             micro.widgets.wizard-form:peeples-add-wizard
+              h3
+                innerValue:Create new user
+              container
+                element:p
+                widgets
+                  literal
+                    element:span
+                    oninit
+
+                      /*
+                       * Checking how many user tickets there are left in the system.
+                       */
+                      p5.auth.users.list
+                      load-file:@PEEPLES/configuration/config.hl
+                      -:x:/@load-file/*/*/tickets?value.int
+                        _:x:/@p5.auth.users.list/*?count
+
+                      /*
+                       * Displaying number of user tickets that areleft in the system.
+                       */
+                      set-widget-property:x:/../*/_event?value
+                        innerValue:@"You have {0} user tickets left."
+                          :x:/@-?value
+
+                  literal
+                    element:a
+                    href:#
+                    innerValue:Purchase additional tickets
+                    onclick
+
+                      /*
+                       * Invoking file responsible for purchasing more tickets.
+                       */
+                      micro.evaluate.file:@PEEPLES/purchase-users.hl
+
               text:peeples-add-wizard-username
                 info:Username
                 .data-field:username
@@ -161,7 +196,8 @@ create-widget:peeples-users
                 info:Role
                 .data-field:role
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
-              hr
+              p
+                innerValue:Type in initial password for new user twice.
               text:peeples-add-wizard-pwd
                 info:Password
                 .data-field:password
