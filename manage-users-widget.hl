@@ -173,7 +173,7 @@ create-widget:peeples-users
                   literal
                     element:a
                     href:#
-                    innerValue:Purchase additional tickets
+                    innerValue:Purchase additional tickets.
                     onclick
 
                       /*
@@ -196,6 +196,7 @@ create-widget:peeples-users
                 info:Role
                 .data-field:role
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+                value:user
               p
                 innerValue:Type in initial password for new user twice.
               text:peeples-add-wizard-pwd
