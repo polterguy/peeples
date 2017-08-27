@@ -82,12 +82,21 @@ p5.auth.users.list
                               onclick
 
                                 /*
-                                 * Deletes user and re-evaluates launch file for
-                                 * simplicity.
+                                 * Deletes user and re-databinds grid.
                                  */
                                 _username:x:/@_dn/#?name
                                 p5.auth.users.delete:x:/@_username?value
-                                micro.evaluate.file:@PEEPLES/launch.hl
+                                micro.evaluate.file:@PEEPLES/databind-users.hl
+
+                                /*
+                                 * Updating available tickets count.
+                                 */
+                                peeples.tickets-update
+
+                                /*
+                                 * Deletes modal widget.
+                                 */
+                                delete-widget:peeples-confirm-deletion-of-user
 
                             button
                               style:"margin-bottom:0;"

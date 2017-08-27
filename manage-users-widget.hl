@@ -61,19 +61,31 @@ create-widget:peeples-users
                     oninit
 
                       /*
-                       * Checking how many user tickets there are left in the system.
+                       * Updating available tickets count.
                        */
-                      p5.auth.users.list
-                      load-file:@PEEPLES/configuration/config.hl
-                      -:x:/@load-file/*/*/tickets?value.int
-                        _:x:/@p5.auth.users.list/*?count
+                      peeples.tickets-update
+
+                    events
 
                       /*
-                       * Displaying number of user tickets that areleft in the system.
+                       * Updates available tickets count.
                        */
-                      set-widget-property:x:/../*/_event?value
-                        innerValue:@"You have {0} user tickets left."
-                          :x:/@-?value
+                      peeples.tickets-update
+
+                        /*
+                         * Checking how many user tickets there are left in the system.
+                         */
+                        p5.auth.users.list
+                        load-file:@PEEPLES/configuration/config.hl
+                        -:x:/@load-file/*/*/tickets?value.int
+                          _:x:/@p5.auth.users.list/*?count
+
+                        /*
+                         * Displaying number of user tickets that areleft in the system.
+                         */
+                        set-widget-property:x:/../*/_event?value
+                          innerValue:@"You have {0} user tickets left."
+                            :x:/@-?value
 
                   literal
                     element:a
@@ -188,10 +200,9 @@ create-widget:peeples-users
                           value:
 
                         /*
-                         * For simplicity, we invoke [oninit] to update "available ticket count".
+                         * Updating available tickets count, since it's now reduced by one.
                          */
-                        p5.web.widgets.ajax-events.raise:peeples-tickets-left
-                          oninit
+                        peeples.tickets-update
 
                       catch
 
