@@ -172,6 +172,27 @@ create-widget:peeples-users
                           role:x:/@micro.widgets.wizard-form.value/*/role?value
                           password:x:/@micro.widgets.wizard-form.value/*/password?value
 
+                        /*
+                         * Re-databinding users grid.
+                         */
+                        micro.evaluate.file:@PEEPLES/databind-users.hl
+
+                        /*
+                         * Emptying form.
+                         */
+                        _widgets
+                          peeples-add-wizard-username
+                          peeples-add-wizard-pwd
+                          peeples-add-wizard-pwd-repeat
+                        set-widget-property:x:/-/*?name
+                          value:
+
+                        /*
+                         * For simplicity, we invoke [oninit] to update "available ticket count".
+                         */
+                        p5.web.widgets.ajax-events.raise:peeples-tickets-left
+                          oninit
+
                       catch
 
                         /*
