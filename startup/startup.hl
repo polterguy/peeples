@@ -1,0 +1,19 @@
+
+/*
+ * Creates the Active Event responsible for returning how many available user
+ * tickets there are left in the system.
+ */
+create-event:peeples.tickets.available
+
+  /*
+   * Checking how many user tickets there are left in the system.
+   */
+  p5.auth.users.list
+  load-file:@PEEPLES/configuration/config.hl
+  -:x:/@load-file/*/*/tickets?value.int
+    _:x:/@p5.auth.users.list/*?count
+
+  /*
+   * Returning that number to caller.
+   */
+  return:x:/@-?value

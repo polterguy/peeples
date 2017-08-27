@@ -119,7 +119,6 @@ if:x:/@p5.web.query.get/*?value
 
 
 /*
- * Creates widget that constantly polls server every n'th second to
- * check if new emails have arrived.
+ * Creates widget that allows the root user to manage the users in his system.
  */
 micro.evaluate.file:@PEEPLES/manage-users-widget.hl

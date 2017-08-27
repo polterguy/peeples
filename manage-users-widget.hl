@@ -51,8 +51,6 @@ create-widget:peeples-users
           class:shaded rounded air-inner
           widgets
             micro.widgets.wizard-form:peeples-add-wizard
-              h3
-                innerValue:Create new user
               container
                 element:p
                 widgets
@@ -75,17 +73,14 @@ create-widget:peeples-users
                         /*
                          * Checking how many user tickets there are left in the system.
                          */
-                        p5.auth.users.list
-                        load-file:@PEEPLES/configuration/config.hl
-                        -:x:/@load-file/*/*/tickets?value.int
-                          _:x:/@p5.auth.users.list/*?count
+                        peeples.tickets.available
 
                         /*
-                         * Displaying number of user tickets that areleft in the system.
+                         * Displaying number of available user tickets.
                          */
                         set-widget-property:x:/../*/_event?value
                           innerValue:@"You have {0} user tickets left."
-                            :x:/@-?value
+                            :x:/@peeples.tickets.available?value
 
                   literal
                     element:a
@@ -114,8 +109,6 @@ create-widget:peeples-users
                 .data-field:role
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
                 value:user
-              p
-                innerValue:Type in initial password for new user twice.
               text:peeples-add-wizard-pwd
                 info:Password
                 .data-field:password
@@ -136,7 +129,7 @@ create-widget:peeples-users
                   button:peeples-create-user-btn
                     title:Create new user
                     style:"margin-bottom:0;width:120px;"
-                    innerValue:@"<span class=""icon-plus""></plus>"
+                    innerValue:Save
                     onclick
 
                       /*
@@ -228,7 +221,6 @@ create-widget:peeples-users
                 Role
                 Delete
                   style:"float:right;"
-              rows
 
             /*
              * Pager button wrapper.
