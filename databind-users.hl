@@ -79,6 +79,13 @@ p5.auth.users.list
                             button
                               style:"margin-bottom:0;"
                               innerValue:Yes
+                              oninit
+
+                                /*
+                                 * Making sure "No" button has initial focus.
+                                 */
+                                micro.page.set-focus:x:/../*/_event?value
+
                               onclick
 
                                 /*
@@ -101,13 +108,6 @@ p5.auth.users.list
                             button
                               style:"margin-bottom:0;"
                               innerValue:No
-                              oninit
-
-                                /*
-                                 * Making sure "No" button has initial focus.
-                                 */
-                                micro.page.set-focus:x:/../*/_event?value
-
                               onclick
 
                                 /*
