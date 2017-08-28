@@ -5,14 +5,38 @@
 create-widgets
   micro.widgets.modal:peeples-purchase-users
     class:micro-modal micro-modal-smaller
+    .onpaypal-ok
+
+      /*
+       * Loading configuration file, adding newly acquired tickets, 
+       * and saving it again.
+       */
+      get-widget-property:peeples-no-users
+        value
+      load-file:@PEEPLES/configuration/config.hl
+      set:x:/@load-file/*/*/tickets?value
+        +:x:/@load-file/*/*/tickets?value.int
+          _:x:/@get-widget-property/*/*?value.int
+      lambda2hyper:x:/@load-file/*/*
+      save-file:@PEEPLES/configuration/config.hl
+        src:x:/@lambda2hyper?value
+
+      /*
+       * Deleting modal widget.
+       */
+      delete-widget:peeples-purchase-users
+
+      /*
+       * Updating available tickets.
+       */
+      peeples.tickets-update
+
     widgets
       h3
         innerValue:Purchase additional user tickets?
       p
         innerValue:@"Choose how many additional user tickets you want to purchase. When you click OK, you will be taken to PayPal to finish your purchase.
 Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
-      p
-        innerValue:@"You will be charged €10 per user for a Home installation, and €50 per user for a professional installation."
       micro.widgets.wizard-form:peeples-purchase-new-users
         select:peeples-no-users
           info:Tickets
@@ -37,58 +61,38 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
       div
         class:right
         widgets
-          div
-            class:strip
-            style:"display:inline-block;"
-            widgets
-              button
-                innerValue:OK
-                style:"margin-bottom:0;"
-                onclick
-
-                  /*
-                   * Retrieving numbers of additional tickets that the user wants
-                   * to purchase, storing it in session, associated with a random GUID,
-                   * redirecting to PayPal, making sure once purchasing process is
-                   * approved, PayPal will redirect back to current URL, and update the tickets
-                   * for the current installation, thx to having PayPal add an additional
-                   * HTTP GET parameter, which will be checked during loading of page,
-                   * and if it exists, it will add that many new user tickets to the system.
-                   */
-                  micro.widgets.wizard-form.value:peeples-purchase-new-users
-                  p5.types.guid.new
-                  p5.web.session.set:x:/@p5.types.guid.new?value
-                    src:x:/@micro.widgets.wizard-form.value/*/users?value
-
-                  /*
-                   * Now we can redirect to PayPal, making sure PayPal redirects back
-                   * to current URL once the purchase has been paid.
-                   */
-                  _type:Q8C7D622QHFFG
-                  if:x:/@micro.widgets.wizard-form.value/*/type?value
-                    =:home
-
-                    /*
-                     * This is a "home" installation, making sure we reduce price accordingly,
-                     * by changing the PayPal product.
-                     */
-                    set:x:/@_type?value
-                      src:4H892NXCMY23J
-
-                  /*
-                   * Figuring out root location, such that we know where to redirect
-                   * user after purchase has been placed.
-                   */
-                  p5.web.get-root-location
-                  p5.web.send-javascript:@"
-var f = document.createElement('div');
-f.innerHTML = '<form id=""paypal_form"" action=""https://www.paypal.com/cgi-bin/webscr"" method=""post""><input type=""hidden"" name=""cmd"" value=""_s-xclick""><input type=""hidden"" name=""hosted_button_id"" value=""{0}""><input type=""hidden"" name=""quantity"" value=""{3}""><input type=""hidden"" name=""return"" value=""{1}/peeples?new-tickets={2}""><img alt="""" border=""0"" src=""https://www.paypalobjects.com/en_US/i/scr/pixel.gif"" width=""1"" height=""1""></form>';
-document.body.appendChild(f);
-document.forms['paypal_form'].submit();"
-                    :x:/@_type?value
-                    :x:/@p5.web.get-root-location?value
-                    :x:/@p5.types.guid.new?value
-                    :x:/@micro.widgets.wizard-form.value/*/users?value
+          container:paypal-button
+            oninit
+              p5.web.send-javascript:@"paypal.Button.render({
+env: 'sandbox', // Or 'production',
+client:{
+  sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',
+  production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'
+},
+commit: true, // Show a 'Pay Now' button
+style: {
+  size: 'small',
+  color: 'gold',
+  shape: 'pill',
+  label: 'checkout'
+},
+payment: function(data, actions) {
+  var unit_price = p5.$('professional').el.checked ? 50.00 : 10.00;
+  var units = p5.$('peeples-no-users').el.value;
+  return actions.payment.create({
+    payment: {
+      transactions: [{
+        amount: { total: unit_price * units, currency: 'EUR' }
+      }]
+    }
+  });
+},
+onAuthorize: function(data, actions) {
+  return actions.payment.execute().then(function(payment) {
+    p5.$('peeples-purchase-users').raise('.onpaypal-ok');
+  });
+}
+}, '#paypal-button');"
 
               button
                 innerValue:Close

@@ -82,37 +82,12 @@ p5.web.include-css-file:@PEEPLES/media/main.css
 
 
 /*
- * Checking if this is a redirect from PayPal, after having purchased additional
- * user tickets.
+ * Including PayPal script, in case user wants to purchase additional users.
+ *
+ * If we didn't do this here, we'd have to fiddle with "Access-Control-Allow-Origin"
+ * headers later.
  */
-p5.web.query.get:new-tickets
-if:x:/@p5.web.query.get/*?value
-
-  /*
-   * This is a redirect from PayPal, and use has finalized his purchase.
-   *
-   * Figuring out how many tickets user purchased.
-   */
-  p5.web.session.get:x:/@p5.web.query.get/*?value
-
-  /*
-   * Loading configuration file, adding newly acquired tickets, 
-   * and saving it again.
-   */
-  load-file:@PEEPLES/configuration/config.hl
-  set:x:/@load-file/*/*/tickets?value
-    +:x:/@load-file/*/*/tickets?value.int
-      _:x:/@p5.web.session.get/*?value.int
-  lambda2hyper:x:/@load-file/*/*
-  save-file:@PEEPLES/configuration/config.hl
-    src:x:/@lambda2hyper?value
-
-  /*
-   * Clearing session object, and redirecting user to root URL of Peeples.
-   */
-  p5.web.session.set:x:/@p5.web.query.get/*?value
-  p5.web.get-location-url
-  p5.web.set-location:x:/-?value
+p5.web.include-javascript-file:"https://www.paypalobjects.com/api/checkout.js"
 
 
 
