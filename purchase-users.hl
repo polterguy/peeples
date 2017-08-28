@@ -64,7 +64,7 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
           container:paypal-button
             oninit
               p5.web.send-javascript:@"paypal.Button.render({
-env: 'sandbox', // Or 'production',
+env: 'production', // 'sandbox' or 'production',
 client:{
   sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',
   production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'
@@ -93,13 +93,3 @@ onAuthorize: function(data, actions) {
   });
 }
 }, '#paypal-button');"
-
-              button
-                innerValue:Close
-                style:"margin-bottom:0;"
-                onclick
-
-                  /*
-                   * Closing modal widget.
-                   */
-                  delete-widget:peeples-purchase-users
