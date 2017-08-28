@@ -10,8 +10,16 @@ create-event:peeples.tickets.available
    */
   p5.auth.users.list
   load-file:@PEEPLES/configuration/config.hl
-  -:x:/@load-file/*/*/tickets?value.int
+  -:x:/@load-file/*/*/tix?value.int
     _:x:/@p5.auth.users.list/*?count
+
+  /*
+   * Verifying HASH value of ticket count.
+   */
+  p5.crypto.hash.create-sha256:x:/@load-file/*/*/tix?value.string
+  if:x:/@p5.crypto.hash.create-sha256?value
+    !=:x:/@load-file/*/*/hash?value
+    return:int:0
 
   /*
    * Returning that number to caller.

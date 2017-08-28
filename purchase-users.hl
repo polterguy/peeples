@@ -14,9 +14,12 @@ create-widgets
       get-widget-property:peeples-no-users
         value
       load-file:@PEEPLES/configuration/config.hl
-      set:x:/@load-file/*/*/tickets?value
-        +:x:/@load-file/*/*/tickets?value.int
+      set:x:/@load-file/*/*/tix?value
+        +:x:/@load-file/*/*/tix?value.int
           _:x:/@get-widget-property/*/*?value.int
+      p5.crypto.hash.create-sha256:x:/@load-file/*/*/tix?value.string
+      set:x:/@load-file/*/*/hash?value
+        src:x:/@p5.crypto.hash.create-sha256?value
       lambda2hyper:x:/@load-file/*/*
       save-file:@PEEPLES/configuration/config.hl
         src:x:/@lambda2hyper?value
@@ -63,33 +66,4 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
         widgets
           container:paypal-button
             oninit
-              p5.web.send-javascript:@"paypal.Button.render({
-env: 'production', // 'sandbox' or 'production',
-client:{
-  sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',
-  production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'
-},
-commit: true, // Show a 'Pay Now' button
-style: {
-  size: 'small',
-  color: 'gold',
-  shape: 'pill',
-  label: 'checkout'
-},
-payment: function(data, actions) {
-  var unit_price = p5.$('professional').el.checked ? 50.00 : 10.00;
-  var units = p5.$('peeples-no-users').el.value;
-  return actions.payment.create({
-    payment: {
-      transactions: [{
-        amount: { total: unit_price * units, currency: 'EUR' }
-      }]
-    }
-  });
-},
-onAuthorize: function(data, actions) {
-  return actions.payment.execute().then(function(payment) {
-    p5.$('peeples-purchase-users').raise('.onpaypal-ok');
-  });
-}
-}, '#paypal-button');"
+              p5.web.send-javascript:@"paypal.Button.render({env: 'production',client:{sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'},commit: true,style:{size: 'small',color: 'gold',shape: 'pill',label: 'checkout'},payment: function(data, actions){var unit_price = p5.$('professional').el.checked ? 50.00 : 10.00;var units = p5.$('peeples-no-users').el.value;return actions.payment.create({payment:{transactions:[{amount:{total:unit_price * units,currency: 'EUR'}}]}});},onAuthorize: function(data, actions){return actions.payment.execute().then(function(payment){p5.$('peeples-purchase-users').raise('.onpaypal-ok');});}}, '#paypal-button');"

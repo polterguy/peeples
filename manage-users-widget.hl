@@ -139,7 +139,7 @@ create-widget:peeples-users
                       p5.auth.users.list
                       load-file:@PEEPLES/configuration/config.hl
                       if:x:/@p5.auth.users.list/*?count
-                        >=:x:/@load-file/*/*/tickets?value.int
+                        >=:x:/@load-file/*/*/tix?value.int
 
                         /*
                          * User has exceeded his license terms, invoking file responsible
@@ -196,6 +196,13 @@ create-widget:peeples-users
                          * Updating available tickets count, since it's now reduced by one.
                          */
                         peeples.tickets-update
+
+                        /*
+                         * Setting focus to username widget, and providing feedback to user.
+                         */
+                        micro.page.set-focus:peeples-add-wizard-username
+                        micro.windows.info:User was successfully created
+                          class:micro-windows-info success
 
                       catch
 
