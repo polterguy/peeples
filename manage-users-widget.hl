@@ -259,6 +259,7 @@ create-widget:peeples-users
                   widgets
                     button:peeples-previous-btn
                       innerValue:&lt;
+                      style:"margin-bottom:0;"
                       onclick
 
                         /*
@@ -283,6 +284,7 @@ create-widget:peeples-users
 
                     button:peeples-next-btn
                       innerValue:&gt;
+                      style:"margin-bottom:0;"
                       onclick
 
                         /*
