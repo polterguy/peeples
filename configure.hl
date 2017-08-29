@@ -1,0 +1,129 @@
+﻿
+/*
+ * Allows user to configure module, which basically implies informing the system
+ * about whether or not he's a "private home user", or a "corporate professional user",
+ * and whether or not the user works for the Norwegian government or not.
+ *
+ * In addition, the user can type in the email address of the sales represent that
+ * sold the system to him, which will provide kickback to the sale rep.
+ */
+create-widgets
+  micro.widgets.modal
+    widgets
+      h3
+        innerValue:Please configure Peeples
+      p
+        innerValue:@"Are you using Phosphorus Five on a privately owned <em>'Home server'</em>, or have you
+installed it as a part of your company's infrastructure? Notice, professional users are eligible for <em>professional support</em>."
+      micro.widgets.wizard-form:peeples-configure
+        radio-group:peeples-user-type
+          .data-field:type
+          options
+            Professional installation:professional
+            Home installation:home
+              checked
+        br
+        checkbox:peeples-norwegian-government
+          .data-field:norwegian-government
+          info:Check this box if you work for the Norwegian government
+        p
+          innerValue:Do you have a coupon code? If not, simply leave field blank.
+        text:peeples-peeples-sales-rep
+          info:Coupon code
+          .data-field:sales-rep
+          onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-save-configurations').raise('onclick');return false;}"
+          oninit
+            micro.page.set-focus:x:/../*/_event?value
+      div
+        class:right
+        oninit
+
+          /*
+           * Checking if there exists an existing configuration, and if so, making
+           * sure we populate form accordingly.
+           */
+          select-data:x:/*/*/peeples.configuration
+          if:x:/@select-data/*
+
+            /*
+             * There existed a configuration from before, making sure
+             * we populate the fields accordingly.
+             */
+            if:x:/@select-data/*/*/type?value
+              =:professional
+              set-widget-property:professional
+                checked
+              delete-widget-property:home
+                checked
+            if:x:/@select-data/*/*/norwegian-government?value
+              set-widget-property:peeples-norwegian-government
+                checked
+            set-widget-property:peeples-peeples-sales-rep
+              value:x:/@select-data/*/*/sales-rep?value
+
+        widgets
+          button:peeples-save-configurations
+            innerValue:Save
+            style:"margin-bottom:0;"
+            onclick
+
+              /*
+               * Serializing form, and storing values in p5.data.
+               */
+              micro.widgets.wizard-form.value:peeples-configure
+
+              /*
+               * Deleting any old configuration settings.
+               */
+              delete-data:x:/*/*/peeples.configuration
+
+              /*
+               * Inserting new configuration.
+               */
+              add:x:/../*/insert-data/*
+                src:x:/@micro.widgets.wizard-form.value/*
+
+              /*
+               * Checking if user supplied a [sales-rep], and if so, downloading
+               * file containing [sales-rep] values.
+               */
+              trim:x:/@micro.widgets.wizard-form.value/*/sales-rep?value
+              if:x:/@trim?value
+                !=:
+
+                /*
+                 * User provided a [sales-rep] value, downloading file from GitHub,
+                 * and checking it actually exists.
+                 */
+                try
+                  p5.http.get:"https://raw.githubusercontent.com/polterguy/peeples/master/configuration/coupon-codes.hl"
+                  hyper2lambda:x:/@p5.http.get/*/result/*/content?value
+                  p5.crypto.hash.create-sha256:x:/@trim?value
+
+                  /*
+                   * Checking that SHA value of coupon code actually exists in "coupon-codes.hl" file from server.
+                   */
+                  if:x:@"/@hyper2lambda/*/""\\{0}""?value"
+                    :x:/@p5.crypto.hash.create-sha256?value
+
+                    /*
+                     * Coupon code was valid, adding percentage to [insert-data] invocation below.
+                     */
+                    eval-x:x:/+/*/*
+                    add:x:/../*/insert-data/*
+                      src
+                        multiply:x:@"/@hyper2lambda/*/""\\{0}""?value"
+                          :x:/@p5.crypto.hash.create-sha256?value
+
+                catch
+
+              /*
+               * Inserting data, containing percentage and the whole shebang.
+               */
+              insert-data
+                peeples.configuration
+
+              /*
+               * Re-launching app.
+               */
+              p5.web.reload-location

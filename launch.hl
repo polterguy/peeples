@@ -86,8 +86,31 @@ p5.web.include-css-file:@PEEPLES/media/main.css
  *
  * If we didn't do this here, we'd have to fiddle with "Access-Control-Allow-Origin"
  * headers later.
+ *
+ * Yup, I know it's a drag, adding to your pageload, but the alternatives doesn't exists ...!! :P
  */
 p5.web.include-javascript-file:"https://www.paypalobjects.com/api/checkout.js"
+
+
+
+
+
+/*
+ * Checking if user has configured module, and if not, doing so, and returning early.
+ */
+select-data:x:/*/*/peeples.configuration
+if:x:/-/*
+  not
+
+  /*
+   * Module needs to be configured before allowing user to proceed.
+   */
+  micro.evaluate.file:@PEEPLES/configure.hl
+
+  /*
+   * Returning early, which basically denies access until module is configured.
+   */
+  return
 
 
 

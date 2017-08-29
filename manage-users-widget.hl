@@ -27,19 +27,36 @@ create-widget:peeples-users
         div
           class:right
           widgets
-
-            /*
-             * Home button, leads user to main desktop.
-             */
-            button
-              innerValue:@"<span class=""icon-home""></span>"
-              onclick
+            div
+              class:strip
+              style:"display:inline-block;"
+              widgets
 
                 /*
-                 * Redirecting to root location.
+                 * Settings, opens up settings form.
                  */
-                p5.web.get-root-location
-                p5.web.set-location:x:/-?value
+                button
+                  innerValue:@"<span class=""icon-cog""></span>"
+                  title:Open up settings
+                  onclick
+
+                    /*
+                     * Evaluating file responsible for opening up settings.
+                     */
+                    micro.evaluate.file:@PEEPLES/configure.hl
+
+                /*
+                 * Home button, leads user to main desktop.
+                 */
+                button
+                  innerValue:@"<span class=""icon-home""></span>"
+                  onclick
+
+                    /*
+                     * Redirecting to root location.
+                     */
+                    p5.web.get-root-location
+                    p5.web.set-location:x:/-?value
 
     /*
      * Main wrapper for creating new users.
