@@ -14,13 +14,14 @@ create-widgets
         innerValue:Please configure Peeples
       p
         innerValue:@"Are you using Phosphorus Five on a privately owned <em>'Home server'</em>, or have you
-installed it as a part of your company's infrastructure? Notice, professional users are eligible for <em>professional support</em>."
+installed it as a part of your company's infrastructure? Notice, professional users are eligible for <em>professional support</em>.
+A home installation also implies a small company, owned and operated by a single person."
       micro.widgets.wizard-form:peeples-configure
         radio-group:peeples-user-type
           .data-field:type
           options
             Professional installation:professional
-            Home installation:home
+            Home installation/Small company:home
               checked
         br
         checkbox:peeples-norwegian-government

@@ -40,10 +40,104 @@ create-widgets
       p
         innerValue:@"Choose how many additional user tickets you want to purchase. When you click OK, you will be taken to PayPal to finish your purchase.
 Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">thomas@gaiasoul.com</a>."
+      p
+        style:"font-weight:bold;"
+        widgets
+          span
+            innerValue:"Total price "
+          span:peeples-total-price
+            innerValue:
       micro.widgets.wizard-form:peeples-purchase-new-users
         select:peeples-no-users
           info:Tickets
           .data-field:users
+          oninit
+            p5.web.widgets.ajax-events.raise:peeples-no-users
+              onchange
+          onchange
+
+            /*
+             * Selecting Peeples configuration settings, to determine pricing, and
+             * making sure we display it to the end user.
+             */
+            select-data:x:/*/*/peeples.configuration
+            _price:5.0
+            _factor:1.0
+            _multiply:1.0
+            _qty-discount:1.0
+
+            /*
+             * Checking if there exists a [multiply] configuration setting.
+             */
+            if:x:/@select-data/*/*/multiply?value
+
+              /*
+               * Changing [_multiply] accordingly.
+               *
+               * Notice, this is the [0>1.0] multiplication factor, as defined
+               * by the user's coupon code.
+               */
+              set:x:/@_multiply?value
+                src:x:/@select-data/*/*/multiply?value
+
+            /*
+             * Checking if this is a professional installation.
+             */
+            if:x:/@select-data/*/*/type?value
+              =:professional
+              set:x:/@_price?value
+                src:50.0
+
+            /*
+             * Checking if this is a Norwegian government installation.
+             */
+            if:x:/@select-data/*/*/norwegian-government?value
+              set:x:/@_factor?value
+                src:3.14
+
+            /*
+             * Figuring out volume discount.
+             */
+            get-widget-property:peeples-no-users
+              value
+            switch:x:/@get-widget-property/*/*?value
+              case:10
+                set:x:/@_qty-discount?value
+                  src:0.95
+              case:25
+                set:x:/@_qty-discount?value
+                  src:0.90
+              case:50
+                set:x:/@_qty-discount?value
+                  src:0.80
+              case:100
+                set:x:/@_qty-discount?value
+                  src:0.70
+              case:250
+                set:x:/@_qty-discount?value
+                  src:0.60
+              case:500
+                set:x:/@_qty-discount?value
+                  src:0.50
+
+            /*
+             * Calculating total.
+             */
+            _total
+            set:x:/@_total?value
+              *:x:/@get-widget-property/*/*?value.decimal
+                _:x:/@_price?value
+                _:x:/@_factor?value
+                _:x:/@_qty-discount?value
+                _:x:/@_multiply?value
+
+            /*
+             * Setting total price.
+             */
+            set-widget-property:peeples-total-price
+              innerValue:"€{0:C}"
+                :x:/@_total?value
+
           options
             5:5
             10:10
@@ -64,7 +158,7 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
                * Notice, we will modify parameters according to how Peeples was configured.
                */
               select-data:x:/*/*/peeples.configuration
-              _price:10.0
+              _price:5.0
               _factor:1
               _multiply:1.0
               _sales-rep:nobody
