@@ -56,5 +56,5 @@ container
          */
         p5.auth.users.list
         set-widget-property:x:/../*/_event?value
-          innerValue:@"<span class=""icon-users desktop-app-icon""></span><span style=""position:absolute;top:5px;right:5px;font-size:.8rem;"">Peeples - {0}</span>"
+          innerValue:@"<span class=""icon-users desktop-app-icon""></span><span style=""position:absolute;top:5px;right:5px;font-size:.7rem;"">Users - {0}</span>"
             :x:/@p5.auth.users.list/*?count
