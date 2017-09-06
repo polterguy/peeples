@@ -17,7 +17,8 @@ for then to visit the _"Bazar"_ and choose to install _"Peeples"_.
 ## User tickets
 
 The system allows you to create 5 initial users for free. If you wish to create more users, you'll
-have to purchase additional _"user tickets"_.
+have to purchase additional _"user tickets"_. The price of such user tickets, are dependent upon if you're a _"professional user"_,
+_"private/home/non-profit"_ organisation, work for the Norwegian government, and/or have a coupon code.
 
 ## License
 
