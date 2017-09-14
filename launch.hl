@@ -105,7 +105,7 @@ if:x:/-/*
   /*
    * Module needs to be configured before allowing user to proceed.
    */
-  micro.evaluate.file:@PEEPLES/configure.hl
+  micro.evaluate.file:@PEEPLES/helpers/configure.hl
 
   /*
    * Returning early, which basically denies access until module is configured.
@@ -119,4 +119,4 @@ if:x:/-/*
 /*
  * Creates widget that allows the root user to manage the users in his system.
  */
-micro.evaluate.file:@PEEPLES/manage-users-widget.hl
+micro.evaluate.file:@PEEPLES/helpers/manage-users-widget.hl

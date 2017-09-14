@@ -93,7 +93,7 @@ p5.auth.users.list
                                  */
                                 _username:x:/@_dn/#?name
                                 p5.auth.users.delete:x:/@_username?value
-                                micro.evaluate.file:@PEEPLES/databind-users.hl
+                                micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
 
                                 /*
                                  * Updating available tickets count.
@@ -129,7 +129,7 @@ p5.auth.users.list
          */
         _username:x:/@_dn/#?name
         eval-x:x:/+/*
-        micro.evaluate.file:@PEEPLES/edit-user.hl
+        micro.evaluate.file:@PEEPLES/helpers/edit-user.hl
           username:x:/@_username?value
 
 

@@ -18,7 +18,7 @@ create-widget:peeples-users
     /*
      * Initial databinding of grid.
      */
-    micro.evaluate.file:@PEEPLES/databind-users.hl
+    micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
 
   widgets
     div
@@ -43,7 +43,7 @@ create-widget:peeples-users
                     /*
                      * Evaluating file responsible for opening up settings.
                      */
-                    micro.evaluate.file:@PEEPLES/configure.hl
+                    micro.evaluate.file:@PEEPLES/helpers/configure.hl
 
                 /*
                  * Home button, leads user to main desktop.
@@ -108,7 +108,7 @@ create-widget:peeples-users
                       /*
                        * Invoking file responsible for purchasing more tickets.
                        */
-                      micro.evaluate.file:@PEEPLES/purchase-users.hl
+                      micro.evaluate.file:@PEEPLES/helpers/purchase-users.hl
 
               text:peeples-add-wizard-username
                 info:Username
@@ -162,7 +162,7 @@ create-widget:peeples-users
                          * User has exceeded his license terms, invoking file responsible
                          * for allowing him to purchase additional users, and returning early.
                          */
-                        micro.evaluate.file:@PEEPLES/purchase-users.hl
+                        micro.evaluate.file:@PEEPLES/helpers/purchase-users.hl
                         return
 
                       /*
@@ -197,7 +197,7 @@ create-widget:peeples-users
                         /*
                          * Re-databinding users grid.
                          */
-                        micro.evaluate.file:@PEEPLES/databind-users.hl
+                        micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
 
                         /*
                          * Emptying form.
@@ -279,7 +279,7 @@ create-widget:peeples-users
                          * now with offset incremented by 10.
                          */
                         eval-x:x:/+/*
-                        micro.evaluate.file:@PEEPLES/databind-users.hl
+                        micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
                           offset:x:/@-?value
 
                     button:peeples-next-btn
@@ -304,5 +304,5 @@ create-widget:peeples-users
                          * now with offset incremented by 10.
                          */
                         eval-x:x:/+/*
-                        micro.evaluate.file:@PEEPLES/databind-users.hl
+                        micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
                           offset:x:/@+?value
