@@ -71,45 +71,6 @@ create-widget:peeples-users
               container
                 element:p
                 widgets
-                  literal:peeples-tickets-left
-                    element:span
-                    oninit
-
-                      /*
-                       * Updating available tickets count.
-                       */
-                      peeples.tickets-update
-
-                    events
-
-                      /*
-                       * Updates available tickets count.
-                       */
-                      peeples.tickets-update
-
-                        /*
-                         * Checking how many user tickets there are left in the system.
-                         */
-                        peeples.tickets.available
-
-                        /*
-                         * Displaying number of available user tickets.
-                         */
-                        set-widget-property:x:/../*/_event?value
-                          innerValue:@"You have {0} user tickets left."
-                            :x:/@peeples.tickets.available?value
-
-                  literal
-                    element:a
-                    href:#
-                    innerValue:Purchase additional tickets.
-                    onclick
-
-                      /*
-                       * Invoking file responsible for purchasing more tickets.
-                       */
-                      micro.evaluate.file:@PEEPLES/helpers/purchase-users.hl
-
               text:peeples-add-wizard-username
                 info:Username
                 .data-field:username
@@ -148,22 +109,6 @@ create-widget:peeples-users
                     style:"margin-bottom:0;width:120px;"
                     innerValue:Save
                     onclick
-
-                      /*
-                       * Verifying user hasn't created more users already than what he
-                       * is allowed to, according to his configuration settings.
-                       */
-                      p5.auth.users.list
-                      load-file:@PEEPLES/configuration/config.hl
-                      if:x:/@p5.auth.users.list/*?count
-                        >=:x:/@load-file/*/*/tix?value.int
-
-                        /*
-                         * User has exceeded his license terms, invoking file responsible
-                         * for allowing him to purchase additional users, and returning early.
-                         */
-                        micro.evaluate.file:@PEEPLES/helpers/purchase-users.hl
-                        return
 
                       /*
                        * Serializing wizard form, and creating user, making sure
@@ -208,11 +153,6 @@ create-widget:peeples-users
                           peeples-add-wizard-pwd-repeat
                         set-widget-property:x:/-/*?name
                           value:
-
-                        /*
-                         * Updating available tickets count, since it's now reduced by one.
-                         */
-                        peeples.tickets-update
 
                         /*
                          * Setting focus to username widget, and providing feedback to user.

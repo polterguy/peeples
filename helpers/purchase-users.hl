@@ -200,7 +200,58 @@ Having troubles? Shoot me an email at <a href=""mailto:thomas@gaiasoul.com"">tho
               /*
                * Rendering PayPal button accordingly.
                */
-              p5.web.send-javascript:@"paypal.Button.render({{env: 'production',client:{{sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'}},commit: true,style:{{size: 'small',color: 'gold',shape: 'pill',label: 'checkout'}},payment: function(data, actions){{var unit_price = {0};var units = p5.$('peeples-no-users').el.value;var factor = {1};var multiply = {2};var qty_discount = 1.0;switch(p5.$('peeples-no-users').el.value){{case '10':{{qty_discount = 0.95;break;}}case '25':{{qty_discount = 0.90;break;}}case '50':{{qty_discount = 0.80;break;}}case '100':{{qty_discount = 0.70;break;}}case '250':{{qty_discount = 0.60;break;}}case '500':{{qty_discount = 0.50;break;}}}}return actions.payment.create({{payment:{{transactions:[{{amount:{{total:unit_price * units * qty_discount * factor * multiply,currency: 'EUR'}}, custom:'sales-rep - {3}'}}]}}}});}},onAuthorize: function(data, actions){{return actions.payment.execute().then(function(payment){{p5.$('peeples-purchase-users').raise('.onpaypal-ok');}});}}}}, '#paypal-button');"
+              p5.web.send-javascript:@"
+paypal.Button.render({{
+  env: 'production',
+  client:{{
+    sandbox:'ASS9zCiAjKx2cW_Gy234SW5qfX2mWlRoQZDelsokl2Dk2RFX9WeJ3yF5bPu9v_Ajcqayy6zdvLFu-0g0',
+    production:'AYXmWWv-OKV_RFjcksDoK4nJ0djwlhCmXp0h9staoD4U9dsY0oKfw8PBPH9TJ68s0SHjqGzWJNOT0inv'}},
+  commit: true,
+  style:{{
+    size: 'small',
+    color: 'gold',
+    shape: 'pill',
+    label: 'checkout'}},
+  payment: function(data, actions){{
+    var unit_price = {0};
+    var units = p5.$('peeples-no-users').el.value;
+    var factor = {1};
+    var multiply = {2};
+    var qty_discount = 1.0;
+    switch(p5.$('peeples-no-users').el.value){{
+      case '10':{{
+        qty_discount = 0.95;
+        break;}}
+      case '25':{{
+        qty_discount = 0.90;
+        break;}}
+      case '50':{{
+        qty_discount = 0.80;
+        break;}}
+      case '100':{{
+        qty_discount = 0.70;
+        break;}}
+      case '250':{{
+        qty_discount = 0.60;
+        break;}}
+      case '500':{{
+        qty_discount = 0.50;
+        break;}}
+    }}
+    return actions.payment.create({{
+      payment:{{
+        transactions:[{{
+          amount:{{
+            total:unit_price * units * qty_discount * factor * multiply,currency: 'EUR'}}, 
+            custom:'sales-rep - {3}'}}]
+      }}
+    }});
+  }},
+  onAuthorize: function(data, actions){{
+    return actions.payment.execute().then(function(payment){{
+      p5.$('peeples-purchase-users').raise('.onpaypal-ok');}});
+  }}
+}}, '#paypal-button');"
                 :x:/@_price?value
                 :x:/@_factor?value
                 :x:/@_multiply?value
