@@ -2,7 +2,7 @@
 # Peeples, user management for Phosphorus Five
 
 This is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive), that allows you to
-manage your users. It allows you to create, edit, and delete users in your Phosphorus Five installation.
+manage your users. It allows you to create, view, edit, and delete users in your Phosphorus Five installation.
 
 ![alt screenshot](media/screenshot-1.png)
 
@@ -14,14 +14,9 @@ of module.
 The easiest way to start using this module, is by installing [Phosphorus Five](https://github.com/polterguy/phosphorusfive),
 for then to visit the _"Bazar"_ and choose to install _"Peeples"_.
 
-## User tickets
-
-The system allows you to create 5 initial users for free. If you wish to create more users, you'll
-have to purchase additional _"user tickets"_. The price of such user tickets, are dependent upon if you're a _"professional user"_,
-_"private/home/non-profit"_ organisation, work for the Norwegian government, and/or have a coupon code.
-
 ## License
 
 Peeples is licensed under the terms of the GNU GPL version 3. See the attached LICENSE file for details.
 
-There also exists [commercial sub-licensing options](https://gaiasoul.com/license/) for those wanting to sub-license Peeples. You are also welcome to send me an email at thomas@gaiasoul.com - If you'd like to speak to me about commercial venues, or other issues.
+There also exists [commercial sub-licensing options](https://gaiasoul.com/license/) for those wanting to sub-license Peeples. 
+You are also welcome to send me an email at thomas@gaiasoul.com - If you'd like to speak to me about commercial venues, or other issues.
