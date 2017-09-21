@@ -33,19 +33,6 @@ create-widget:peeples-users
               widgets
 
                 /*
-                 * Settings, opens up settings form.
-                 */
-                button
-                  innerValue:@"<span class=""icon-cog""></span>"
-                  title:Open up settings
-                  onclick
-
-                    /*
-                     * Evaluating file responsible for opening up settings.
-                     */
-                    micro.evaluate.file:@PEEPLES/helpers/configure.hl
-
-                /*
                  * Home button, leads user to main desktop.
                  */
                 button
