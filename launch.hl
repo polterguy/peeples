@@ -9,18 +9,6 @@
 
 
 /*
- * Clearing out anything previously added to page, to make sure we start
- * out Peeples with a blank slate.
- */
-clear-widget:cnt
-delete-widget-property:cnt
-  class
-
-
-
-
-
-/*
  * Creating main content container.
  *
  * This is the place where "everything" is stored in Peeples, and is used to display
