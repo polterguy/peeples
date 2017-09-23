@@ -1,6 +1,6 @@
 
 /*
- * Uninstall file for Peeples.
+ * Uninstall file.
  */
 
 
@@ -8,7 +8,7 @@
 
 
 /*
- * Deleting all Peeples relevant Active Events, and that's it.
+ * Deleting all relevant Active Events, and that's it.
  */
 delete-event:p5.io.unroll-path.@PEEPLES
 vocabulary:peeples.
