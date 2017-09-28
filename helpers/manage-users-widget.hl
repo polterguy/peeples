@@ -79,11 +79,13 @@ create-widget:peeples-users
                 .data-field:password
                 type:password
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+                autocomplete:new-password
               text:peeples-add-wizard-pwd-repeat
                 info:Repeat
                 .data-field:password-repeat
                 type:password
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
+                autocomplete:new-password
               div
                 class:right
                 widgets
