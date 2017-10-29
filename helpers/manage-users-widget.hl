@@ -28,7 +28,7 @@ create-widget:peeples-users
           class:right
           widgets
             div
-              class:strip
+              class:strip toolbar
               style:"display:inline-block;"
               widgets
 
