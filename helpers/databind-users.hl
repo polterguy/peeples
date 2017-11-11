@@ -52,7 +52,7 @@ p5.auth.users.list
             href:#
             role:button
             style:"float:right;"
-            innerValue:@"<span class=""icon-trash""></span>"
+            innerValue:@"<span class=""icon-bin""></span>"
             title:Delete user
             onclick
 
