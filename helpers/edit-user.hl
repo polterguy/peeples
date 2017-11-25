@@ -170,15 +170,9 @@ create-widgets
                   p5.auth.users.edit:x:/@micro.widgets.wizard-form.value/*/username?value
 
                   /*
-                   * Deleting modal widget.
+                   * For simplicity reasons, we simply reload location.
                    */
-                  delete-widget:peeples-edit-user-modal
-
-                  /*
-                   * For simplicity reasons, we simply reload "launch.hl" file,
-                   * which will do a new databinding of main widget.
-                   */
-                  micro.evaluate.file:@PEEPLES/launch.hl
+                  p5.web.reload-location
 
               button
                 innerValue:Close
