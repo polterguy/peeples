@@ -1,6 +1,5 @@
-
 /*
- * Desktop widget file for Peeples.
+ * Desktop widget.
  */
 container
   element:a
@@ -33,28 +32,12 @@ container
         :x:/@split/0/-?name
 
   widgets
-    literal
-      element:span
+    span
       class:desktop-app-name
-      oninit
-
-        /*
-         * Verifying user is root, before allowing lambda to continue.
-         */
-        whoami
-        if:x:/@whoami/*/role?value
-          !=:root
-
-          /*
-           * User is not logged in as root, simply deleting entire icon.
-           */
-          return
-
-        /*
-         * Making sure we change main widget's innerValue to show the number of users
-         * in the system.
-         */
-        p5.auth.users.list
-        set-widget-property:x:/../*/_event?value
-          innerValue:@"<span class=""icon-users desktop-app-icon""></span><span style=""position:absolute;top:5px;right:5px;font-size:.7rem;"">Users - {0}</span>"
-            :x:/@p5.auth.users.list/*?count
+      widgets
+        literal
+          element:span
+          class:icon-users desktop-app-icon
+        span
+          style:"position:absolute;top:5px;right:5px;font-size:.7rem;"
+          innerValue:Users
