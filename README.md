@@ -1,4 +1,3 @@
-
 # Peeples, user management for Phosphorus Five
 
 This is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive), that allows you to
@@ -9,10 +8,16 @@ manage your users. It allows you to create, view, edit, and delete users in your
 If you wish to have multiple users in your Phosphorus Five installation, this is probably your choice
 of module.
 
-## Getting started
+## Installation
 
-The easiest way to start using this module, is by installing [Phosphorus Five](https://github.com/polterguy/phosphorusfive),
-for then to visit the _"Bazar"_ and choose to install _"Peeples"_.
+The easiest way to install it, is to [install phosphorus five](https://github.com/polterguy/phosphorusfive),
+for then to visit _"The Bazar"_, and simply install it through the Bazar on your local machine/server.
+However, if you want a more manual installation path, you can download the latest release,
+unzip it, and move the unzipped root folder into your _"core/p5.webapp/modules"_ folder. If you
+choose this path, you should rename the folder, removing any version information, making sure
+your module folder is called exactly _"peeples"_. Installation through the Bazar
+also requires you having some sort of GnuPG client on your machine/server. If you don't want
+to fiddle with installing GnuPG, you can resort to download the latest zip file release directly.
 
 ## License
 
