@@ -1,7 +1,15 @@
-﻿
 /*
  * Create the main widget showing users, and create new user button, etc.
  */
+
+
+
+
+
+/*
+ * Retrieving all access rights, such that we can databind our access rights editor.
+ */
+p5.auth.access.list
 
 
 
@@ -54,6 +62,8 @@ create-widget:peeples-users
         div
           class:shaded rounded air-inner
           widgets
+            h4
+              innerValue:Create new user
             micro.widgets.wizard-form:peeples-add-wizard
               container
                 element:p
@@ -65,7 +75,7 @@ create-widget:peeples-users
                 oninit
 
                   /*
-                   * Making sure we set initial focus to username texbox.
+                   * Making sure we set initial focus to new username textbox.
                    */
                   micro.page.set-focus:x:/../*/_event?value
 
@@ -95,7 +105,7 @@ create-widget:peeples-users
                    */
                   button:peeples-create-user-btn
                     title:Create new user
-                    style:"margin-bottom:0;width:120px;"
+                    style:"margin-bottom:0;padding-left:35px;padding-right:35px;"
                     innerValue:Save
                     onclick
 
@@ -186,7 +196,7 @@ create-widget:peeples-users
                   style:"display:inline-block;"
                   widgets
                     button:peeples-previous-btn
-                      innerValue:&lt;
+                      innerValue:<
                       style:"margin-bottom:0;"
                       onclick
 
@@ -211,7 +221,7 @@ create-widget:peeples-users
                           offset:x:/@-?value
 
                     button:peeples-next-btn
-                      innerValue:&gt;
+                      innerValue:>
                       style:"margin-bottom:0;"
                       onclick
 
@@ -234,3 +244,59 @@ create-widget:peeples-users
                         eval-x:x:/+/*
                         micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
                           offset:x:/@+?value
+
+    /*
+     * Main wrapper for editing access rights.
+     */
+    div
+      class:col-100
+      widgets
+        div:peeples-access-right
+          class:shaded rounded air-inner
+          widgets
+            label
+              innerValue:Access rights (authorization objects)
+              style:"margin-bottom:0;"
+            micro.widgets.codemirror:peeples.access-rights
+              mode:hyperlambda
+              value:x:/../*/p5.auth.access.list/*
+              .data-field:access
+            div
+              class:right
+              widgets
+
+                /*
+                 * Save access rights object.
+                 */
+                button
+                  title:Create new user
+                  class:air-top
+                  style:"margin-bottom:0;padding-left:35px;padding-right:35px;"
+                  innerValue:Save
+                  onclick
+
+                    /*
+                     * Retrieves access objects, and saves them to auth file.
+                     */
+                    micro.form.serialize:peeples-access-right
+
+                    /*
+                     * Checking that user actually supplied something, and not just an empty piece of text.
+                     *
+                     * Notice, we must support empty string, to allow for deleting all existing access objects,
+                     * without creating any new ones.
+                     */
+                    if:x:/@micro.form.serialize/*/access?value
+                      !=:
+
+                      /*
+                       * User actually supplied something new.
+                       */
+                      hyper2lambda:x:/@micro.form.serialize/*/access?value
+                      add:x:/../*/p5.auth.access.set-all
+                        src:x:/@hyper2lambda/*
+
+                    /*
+                     * Updating access to whatever new value(s) the user provided.
+                     */
+                    p5.auth.access.set-all
