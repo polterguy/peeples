@@ -42,6 +42,18 @@ create-widget:peeples-users
               widgets
 
                 /*
+                 * Help button, opens up GitHub README.md file in new window.
+                 */
+                button
+                  innerValue:@"<span class=""icon-question""></span>"
+                  onclick
+
+                    /*
+                     * Opens up GitHub project page in a new window.
+                     */
+                    p5.web.send-javascript:@"window.open('https://github.com/polterguy/peeples','_blank')"
+
+                /*
                  * Home button, leads user to main desktop.
                  */
                 button
