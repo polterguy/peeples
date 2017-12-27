@@ -10,6 +10,7 @@
  * Retrieving all access rights, such that we can databind our access rights editor.
  */
 p5.auth.access.list
+lambda2hyper:x:/-/*
 
 
 
@@ -246,7 +247,7 @@ create-widget:peeples-users
                           offset:x:/@+?value
 
     /*
-     * Main wrapper for editing access rights.
+     * Main wrapper for editing access rights, or authorization objects.
      */
     div
       class:col-100
@@ -259,44 +260,199 @@ create-widget:peeples-users
               style:"margin-bottom:0;"
             micro.widgets.codemirror:peeples.access-rights
               mode:hyperlambda
-              value:x:/../*/p5.auth.access.list/*
+              value:x:/../*/lambda2hyper?value
               .data-field:access
             div
-              class:right
+              class:right air-top
               widgets
-
-                /*
-                 * Save access rights object.
-                 */
-                button
-                  title:Create new user
-                  class:air-top
-                  style:"margin-bottom:0;padding-left:35px;padding-right:35px;"
-                  innerValue:Save
-                  onclick
+                div
+                  class:strip
+                  style:"display:inline-block;"
+                  widgets
 
                     /*
-                     * Retrieves access objects, and saves them to auth file.
+                     * Save access rights object.
                      */
-                    micro.form.serialize:peeples-access-right
+                    button
+                      title:Save access objects
+                      style:"margin-bottom:0;padding-left:35px;padding-right:35px;"
+                      innerValue:Save
+                      onclick
+
+                        /*
+                         * Catching exceptions to give friendly feedback to user in case of an exception.
+                         */
+                        try
+
+                          /*
+                           * Retrieves access objects, and saves them to auth file.
+                           */
+                          micro.form.serialize:peeples-access-right
+
+                          /*
+                           * Checking that user actually supplied something, and not just an empty piece of text.
+                           *
+                           * Notice, we must support empty string, to allow for deleting all existing access objects,
+                           * without creating any new ones.
+                           */
+                          if:x:/@micro.form.serialize/*/access?value
+                            !=:
+
+                            /*
+                             * User actually supplied something new.
+                             */
+                            hyper2lambda:x:/@micro.form.serialize/*/access?value
+                            add:x:/..try/*/p5.auth.access.set-all
+                              src:x:/@hyper2lambda/*
+
+                          /*
+                           * Updating access to whatever new value(s) the user provided, and providing some feedback
+                           * to user.
+                           */
+                          p5.auth.access.set-all
+                          micro.windows.info:Access objects succsessfully saved
+                            class:micro-windows-info success
+
+                        catch
+
+                          /*
+                           * Displaying friendly feedback to user.
+                           */
+                          micro.windows.info:x:/@message?value
+                            class:micro-windows-info warning
 
                     /*
-                     * Checking that user actually supplied something, and not just an empty piece of text.
-                     *
-                     * Notice, we must support empty string, to allow for deleting all existing access objects,
-                     * without creating any new ones.
+                     * Grant access to module (guided version).
                      */
-                    if:x:/@micro.form.serialize/*/access?value
-                      !=:
+                    button
+                      title:Grant access to module for specified role
+                      style:"margin-bottom:0;"
+                      innerValue:@"<span class=""icon-plus""></span>"
+                      onclick
 
-                      /*
-                       * User actually supplied something new.
-                       */
-                      hyper2lambda:x:/@micro.form.serialize/*/access?value
-                      add:x:/../*/p5.auth.access.set-all
-                        src:x:/@hyper2lambda/*
+                        /*
+                         * Allows user to grant access to a module, for some specific role (or all roles).
+                         * Shows a modal widget, allowing user to select module, and role.
+                         */
+                        create-widgets
+                          micro.widgets.modal:peeples.grant-access-wizard
+                            widgets
+                              h3
+                                innerValue:Grant access
+                              p
+                                innerValue:Choose a module, and a role.
+                              micro.widgets.wizard-form
+                                select
+                                  info:Module
+                                  .data-field:access-module
+                                  oninit
 
-                    /*
-                     * Updating access to whatever new value(s) the user provided.
-                     */
-                    p5.auth.access.set-all
+                                    /*
+                                     * Create one option element for each module in the system
+                                     * that has a desktop icon.
+                                     */
+                                    list-folders:/modules/
+                                    list-files:x:/@list-folders/*?name
+                                      filter:desktop.hl
+                                    for-each:x:/@list-files/*?name
+                                      split:x:/@_dp?value
+                                        =:/
+                                      set:x:/@split/0/-
+                                      join:x:/@split/*?name
+                                        sep:/
+                                      create-widget
+                                        element:option
+                                        parent:x:/../*/_event?value
+                                        innerValue:x:/@split/1?name
+                                        value:/{0}/
+                                          :x:/@join?value
+
+                                select
+                                  info:Role
+                                  .data-field:access-role
+                                  oninit
+
+                                    /*
+                                     * Create one option element for each role in system.
+                                     */
+                                    p5.auth.roles.list
+                                    for-each:x:/@p5.auth.roles.list/*?name
+                                      create-widget
+                                        element:option
+                                        parent:x:/../*/_event?value
+                                        innerValue:x:/@_dp?value
+                                        value:x:/@_dp?value
+
+                                  widgets
+                                    option
+                                      innerValue:All roles (*)
+                                      value:*
+
+                                div
+                                  class:right
+                                  widgets
+                                    div
+                                      class:strip
+                                      style:"display:inline-block;"
+                                      widgets
+                                        button
+                                          innerValue:Save
+                                          style:"margin-bottom:0;"
+                                          onclick
+
+                                            /*
+                                             * Catching exceptions to give friendly feedback to user in case of an exception.
+                                             */
+                                            try
+
+                                              /*
+                                               * Retrieves role and module, and creates a new access object to allow
+                                               * role access to module.
+                                               */
+                                              micro.form.serialize:cnt
+                                              hyper2lambda:x:/@micro.form.serialize/*/access?value
+                                              add:x:/..try/*/p5.auth.access.add
+                                                src:x:/@micro.form.serialize/*/access-role?value
+                                              eval-x:x:/+/*/*
+                                              add:x:/..try/*/p5.auth.access.add/0
+                                                src
+                                                  p5.module.allow:x:/@micro.form.serialize/*/access-module?value
+                                              p5.auth.access.add
+
+                                              /*
+                                               * Updating access object widget.
+                                               */
+                                              p5.web.widgets.find-first:peeples.access-rights
+                                                element:textarea
+                                              p5.auth.access.list
+                                              lambda2hyper:x:/@p5.auth.access.list/*
+                                              set-widget-property:x:/@p5.web.widgets.find-first/*/*?value
+                                                value:x:/@lambda2hyper?value
+                                              p5.web.send-javascript:@"p5['{0}'].getDoc().setValue(`{1}`);"
+                                                :x:/@p5.web.widgets.find-first/*/*?value
+                                                :x:/@lambda2hyper?value
+
+                                              /*
+                                               * Deleting modal widget, and providing feedback to user.
+                                               */
+                                              delete-widget:peeples.grant-access-wizard
+                                              micro.windows.info:Your access objects were successfully updated
+                                                class:micro-windows-info success
+
+                                            catch
+
+                                              /*
+                                               * Displaying friendly feedback to user.
+                                               */
+                                              micro.windows.info:x:/@message?value
+                                                class:micro-windows-info warning
+
+                                        button
+                                          innerValue:Cancel
+                                          style:"margin-bottom:0;"
+                                          onclick
+
+                                            /*
+                                             * Simply deleting modal widget.
+                                             */
+                                            delete-widget:peeples.grant-access-wizard
