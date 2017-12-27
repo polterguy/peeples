@@ -1,4 +1,4 @@
-# Peeples, authorization for Phosphorus Five
+# Peeples, authorization and authentication
 
 This is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive). It allows you 
 to create, view, edit, and delete users in your Phosphorus Five installation. In addition to explicitly granting or
