@@ -119,7 +119,7 @@ create-widget:peeples-users
                   button:peeples-create-user-btn
                     title:Create new user
                     style:"margin-bottom:0;padding-left:35px;padding-right:35px;"
-                    innerValue:Save
+                    innerValue:Add
                     onclick
 
                       /*
@@ -408,7 +408,7 @@ create-widget:peeples-users
                                       style:"display:inline-block;"
                                       widgets
                                         button
-                                          innerValue:Save
+                                          innerValue:Add
                                           style:"margin-bottom:0;"
                                           onclick
 
