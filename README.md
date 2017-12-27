@@ -76,7 +76,7 @@ your _"/modules/"_ folder.
 
 Each access object will be given an automatically assigned ID, unless you explicitly give it one yourself. This is necessary
 in order to be able to delete specifically named access objects. The default ID of an access object, is the string 
-representation of a GUID.
+representation of a GUID. If you provide an explicit ID, it must be unique for your server.
 
 ## License
 
