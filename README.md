@@ -1,7 +1,7 @@
 # Peeples, authorization and authentication
 
 This is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive). It allows you 
-to create, view, edit, and delete users in your Phosphorus Five installation. In addition to explicitly granting or
+to create, view, edit, and delete users in your Phosphorus Five installation - In addition to explicitly granting or
 denying access to objects, such as modules, files, and folders, ets.
 
 ![alt screenshot](media/screenshot-main.png)
@@ -71,6 +71,12 @@ developer
 
 The above access control object will give all users in the _"developer"_ role write access to any file beneath 
 your _"/modules/"_ folder.
+
+### Access object's IDs
+
+Each access object will be given an automatically assigned ID, unless you explicitly give it one yourself. This is necessary
+in order to be able to delete specifically named access objects. The default ID of an access object, is the string 
+representation of a GUID.
 
 ## License
 
