@@ -79,6 +79,10 @@ your _"/modules/"_ folder. The 6 most important access object types are as follo
 * __[p5.io.write-file.allow]__ - Allows access to modify a folder or a file
 * __[p5.io.write-file.deny]__ - Denies access to modify a folder or a file
 
+When you grant or deny access to folders and files, then these access objects are _"cascading"_, which implies that if
+your for instance grant write access to the _"/foo/"_ folder, then you have also implicitly granted access to all
+files and folders beneath that folder, such as e.g. _"/foo/bar/howdy/some-markdown-file.md"_.
+
 ### Access object's IDs
 
 Each access object will be given an automatically assigned ID, unless you explicitly give it one yourself. This is necessary
