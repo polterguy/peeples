@@ -70,7 +70,14 @@ developer
 ```
 
 The above access control object will give all users in the _"developer"_ role write access to any file beneath 
-your _"/modules/"_ folder.
+your _"/modules/"_ folder. The 6 most important access object types are as follows.
+
+* __[p5.module.allow]__ - Grants access to module
+* __[p5.module.deny]__ - Denies access to module
+* __[p5.io.read-file.allow]__ - Allows access to reading from a folder or a file
+* __[p5.io.read-file.deny]__ - Denies access to reading from a folder or a file
+* __[p5.io.write-file.allow]__ - Allows access to modify a folder or a file
+* __[p5.io.write-file.deny]__ - Denies access to modify a folder or a file
 
 ### Access object's IDs
 
