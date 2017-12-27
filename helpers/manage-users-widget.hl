@@ -123,7 +123,6 @@ create-widget:peeples-users
                         /*
                          * Creating user.
                          */
-                        eval-x:x:/+/*
                         p5.auth.users.create:x:/@micro.widgets.wizard-form.value/*/username?value
                           role:x:/@micro.widgets.wizard-form.value/*/role?value
                           password:x:/@micro.widgets.wizard-form.value/*/password?value
