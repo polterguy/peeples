@@ -25,11 +25,10 @@ create-container-widget:peeples-main-container
 /*
  * Including Micro, serious skin, and adding Awesome Fonts.
  */
-micro.page.minify-and-bundle-css-file
+p5.web.include-css-file
   @MICRO/media/main.css
   @MICRO/media/fonts.css
   @MICRO/media/skins/serious.css
-p5.web.include-css-file:x:/-?value
 
 
 
