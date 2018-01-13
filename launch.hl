@@ -23,12 +23,10 @@ create-container-widget:peeples-main-container
 
 
 /*
- * Including Micro, serious skin, and adding Awesome Fonts.
+ * Including Micro, off-white skin, and adding Awesome Fonts.
  */
-p5.web.include-css-file
-  @MICRO/media/main.css
-  @MICRO/media/fonts.css
-  @MICRO/media/skins/serious.css
+micro.css.include
+  skin:off-white
 
 
 
