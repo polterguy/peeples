@@ -1,4 +1,3 @@
-
 /*
  * Desktop widget.
  */
@@ -15,5 +14,5 @@ container
           class:icon-users desktop-app-icon
         span
           class:desktop-app-text
-          innerValue:Access
+          innerValue:Peeples
                               

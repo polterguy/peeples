@@ -7,6 +7,3 @@
  * Overridden to make sure all strips that contains a label as their first child,
  * has at least 120 pixels width, to make them nicely align with each other.
  */
-.strip > label:first-child {
-    min-width: 120px;
-}
