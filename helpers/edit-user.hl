@@ -109,7 +109,6 @@ create-widgets
             widgets
               button:peeples-edit-user-save-btn
                 innerValue:Save
-                style:"margin-bottom:0;"
                 onclick
 
                   /*
@@ -176,7 +175,6 @@ create-widgets
 
               button
                 innerValue:Close
-                style:"margin-bottom:0;"
                 onclick
 
                   /*

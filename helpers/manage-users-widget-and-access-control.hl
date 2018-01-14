@@ -118,7 +118,6 @@ create-widget:peeples-users
                    */
                   button:peeples-create-user-btn
                     title:Create new user
-                    style:"margin-bottom:0;"
                     class:larger
                     innerValue:Add
                     onclick
@@ -211,7 +210,6 @@ create-widget:peeples-users
                   widgets
                     button:peeples-previous-btn
                       innerValue:<
-                      style:"margin-bottom:0;"
                       onclick
 
                         /*
@@ -236,7 +234,6 @@ create-widget:peeples-users
 
                     button:peeples-next-btn
                       innerValue:>
-                      style:"margin-bottom:0;"
                       onclick
 
                         /*
@@ -270,7 +267,6 @@ create-widget:peeples-users
           widgets
             label
               innerValue:Access rights (authorization objects)
-              style:"margin-bottom:0;"
             micro.widgets.codemirror:peeples.access-rights
               mode:hyperlambda
               value:x:/../*/lambda2hyper?value
@@ -288,7 +284,6 @@ create-widget:peeples-users
                      */
                     button
                       title:Save access objects
-                      style:"margin-bottom:0;"
                       class:larger
                       innerValue:Save
                       onclick
@@ -340,7 +335,6 @@ create-widget:peeples-users
                      */
                     button
                       title:Grant access to module for specified role
-                      style:"margin-bottom:0;"
                       innerValue:@"<span class=""icon-plus""></span>"
                       onclick
 
@@ -411,7 +405,6 @@ create-widget:peeples-users
                                       widgets
                                         button
                                           innerValue:Add
-                                          style:"margin-bottom:0;"
                                           onclick
 
                                             /*
@@ -463,7 +456,6 @@ create-widget:peeples-users
 
                                         button
                                           innerValue:Cancel
-                                          style:"margin-bottom:0;"
                                           onclick
 
                                             /*
