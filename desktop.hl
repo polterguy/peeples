@@ -3,16 +3,12 @@
  */
 container
   element:a
-  class:desktop-app shaded rounded air-inner
-  title:Peeples is your user management system, allowing you to maintain users, roles, and access to your system's different parts
+  class:desktop-app button shaded
+  title:Administrate your users and their rights
   widgets
+    literal
+      element:span
+      class:icon-users desktop-app-icon
     span
-      class:desktop-app-name
-      widgets
-        literal
-          element:span
-          class:icon-users desktop-app-icon
-        span
-          class:desktop-app-text
-          innerValue:Peeples
-                              
+      class:desktop-app-text
+      innerValue:Peeples
