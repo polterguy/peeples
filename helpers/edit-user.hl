@@ -105,7 +105,6 @@ create-widgets
         widgets
           div
             class:strip
-            style:"display:inline-block;"
             widgets
               button:peeples-edit-user-save-btn
                 innerValue:Save

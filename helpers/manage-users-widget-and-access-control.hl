@@ -38,7 +38,6 @@ create-widget:peeples-users
           widgets
             div
               class:strip toolbar
-              style:"display:inline-block;"
               widgets
 
                 /*
@@ -206,7 +205,6 @@ create-widget:peeples-users
                 div
                   .offset:0
                   class:strip
-                  style:"display:inline-block;"
                   widgets
                     button:peeples-previous-btn
                       innerValue:<
@@ -276,7 +274,6 @@ create-widget:peeples-users
               widgets
                 div
                   class:strip
-                  style:"display:inline-block;"
                   widgets
 
                     /*
@@ -401,7 +398,6 @@ create-widget:peeples-users
                                   widgets
                                     div
                                       class:strip
-                                      style:"display:inline-block;"
                                       widgets
                                         button
                                           innerValue:Add
