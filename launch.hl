@@ -26,7 +26,6 @@ create-container-widget:peeples-main-container
  * Including Micro, serious skin, and adding Awesome Fonts.
  */
 micro.css.include
-  skin:serious
 
 
 
