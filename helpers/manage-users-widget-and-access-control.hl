@@ -108,6 +108,26 @@ create-widget:peeples-users
                 type:password
                 onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-create-user-btn').raise('onclick');return false;}"
                 autocomplete:new-password
+              checkbox
+                info:Show password
+                onchange
+
+                  /*
+                   * Getting value of checkbox, and toggling password/text type of password textboxes accordingly.
+                   */
+                  get-widget-property:x:/../*/_event?value
+                    checked
+                  if:x:/-/*/*
+                    set-widget-property:peeples-add-wizard-pwd
+                      type:text
+                    set-widget-property:peeples-add-wizard-pwd-repeat
+                      type:text
+                  else
+                    set-widget-property:peeples-add-wizard-pwd
+                      type:password
+                    set-widget-property:peeples-add-wizard-pwd-repeat
+                      type:password
+
               div
                 class:right
                 widgets

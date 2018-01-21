@@ -1,4 +1,3 @@
-﻿
 /*
  * File responsible for editing an existing user.
  *
@@ -96,6 +95,26 @@ create-widgets
           onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
           title:If you leave the password blank, the password will not be changed
           autocomplete:new-password
+        checkbox
+          info:Show password
+          onchange
+
+            /*
+             * Getting value of checkbox, and toggling password/text type of password textboxes accordingly.
+             */
+            get-widget-property:x:/../*/_event?value
+              checked
+            if:x:/-/*/*
+              set-widget-property:peeples-edit-password
+                type:text
+              set-widget-property:peeples-edit-password-repeat
+                type:text
+            else
+              set-widget-property:peeples-edit-password
+                type:password
+              set-widget-property:peeples-edit-password-repeat
+                type:password
+
 
       /*
        * Wrapper for "Save" and "Close" buttons.
@@ -111,66 +130,82 @@ create-widgets
                 onclick
 
                   /*
-                   * Serializing wizard form, updating user, and closing modal widget.
+                   * Wrapping everything inside a trye/catch block, in case an exception occurs.
                    */
-                  micro.widgets.wizard-form.value:peeples-edit-user-wizard
-
-                  /*
-                   * Verifying passwords, if given, are matching.
-                   */
-                  if:x:/@micro.widgets.wizard-form.value/*(/password|/password-repeat)/=$?count
-                    !=:int:1
+                  try
 
                     /*
-                     * A new password was given, and the passwords did not match.
+                     * Serializing wizard form, updating user, and closing modal widget.
                      */
-                    micro.windows.info:The passwords did not match
-                      class:micro-windows-info warning
-                    return
-
-                  /*
-                   * Updating user.
-                   *
-                   * Notice, if password is empty, it won't be changed.
-                   *
-                   * Also notice, in order to preserver user's old settings, we'll
-                   * need to fetch them explicitly, and append them into our update invocation.
-                   */
-                  p5.auth.users.get:x:/@micro.widgets.wizard-form.value/*/username?value
-
-                  /*
-                   * Adding role, which might have changed.
-                   */
-                  add:x:/../*/p5.auth.users.edit
-                    src:x:/@micro.widgets.wizard-form.value/*/role
-
-                  /*
-                   * Checking if password was left non-blank.
-                   */
-                  if:x:/@micro.widgets.wizard-form.value/*/password?value
-                    !=:
+                    micro.widgets.wizard-form.value:peeples-edit-user-wizard
 
                     /*
-                     * Password was not empty, making sure we add it to edit invocation.
+                     * Verifying passwords, if given, are matching.
+                     */
+                    if:x:/@micro.widgets.wizard-form.value/*(/password|/password-repeat)/=$?count
+                      !=:int:1
+
+                      /*
+                       * A new password was given, and the passwords did not match.
+                       */
+                      micro.windows.info:The passwords did not match
+                        class:micro-windows-info warning
+                      return
+
+                    /*
+                     * Updating user.
+                     *
+                     * Notice, if password is empty, it won't be changed.
+                     *
+                     * Also notice, in order to preserver user's old settings, we'll
+                     * need to fetch them explicitly, and append them into our update invocation.
+                     */
+                    p5.auth.users.get:x:/@micro.widgets.wizard-form.value/*/username?value
+
+                    /*
+                     * Adding role, which might have changed.
                      */
                     add:x:/../*/p5.auth.users.edit
-                      src:x:/@micro.widgets.wizard-form.value/*/password
+                      src:x:/@micro.widgets.wizard-form.value/*/role
 
-                  /*
-                   * Adding all other user specific settings.
-                   */
-                  add:x:/../*/p5.auth.users.edit
-                    src:x:/../*/p5.auth.users.get/*/*(!/role)
+                    /*
+                     * Checking if password was left non-blank.
+                     */
+                    if:x:/@micro.widgets.wizard-form.value/*/password?value
+                      !=:
 
-                  /*
-                   * Updating user.
-                   */
-                  p5.auth.users.edit:x:/@micro.widgets.wizard-form.value/*/username?value
+                      /*
+                       * Password was not empty, making sure we add it to edit invocation.
+                       */
+                      add:x:/..try/*/p5.auth.users.edit
+                        src:x:/@micro.widgets.wizard-form.value/*/password
 
-                  /*
-                   * For simplicity reasons, we simply reload location.
-                   */
-                  p5.web.reload-location
+                    /*
+                     * Adding all other user specific settings.
+                     */
+                    add:x:/..try/*/p5.auth.users.edit
+                      src:x:/..try/*/p5.auth.users.get/*/*(!/role!/password)
+
+                    /*
+                     * Updating user.
+                     */
+                    p5.auth.users.edit:x:/@micro.widgets.wizard-form.value/*/username?value
+
+                    /*
+                     * Closing modal window and displaying some information to user.
+                     */
+                    delete-widget:peeples-edit-user-modal
+                    micro.windows.info:User was successfully updated
+                      class:micro-windows-info success
+                    
+
+                  catch
+
+                    /*
+                     * Displaying error to user.
+                     */
+                    micro.windows.info:x:/@message?value
+                      class:micro-windows-info warning
 
               button
                 innerValue:Close
