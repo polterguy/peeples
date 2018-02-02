@@ -377,20 +377,15 @@ create-widget:peeples-users
                                      * that has a desktop icon.
                                      */
                                     list-folders:/modules/
-                                    list-files:x:/@list-folders/*?name
-                                      filter:desktop.hl
-                                    for-each:x:/@list-files/*?name
+                                    for-each:x:/@list-folders/*?name
                                       split:x:/@_dp?value
                                         =:/
-                                      set:x:/@split/0/-
-                                      join:x:/@split/*?name
-                                        sep:/
                                       create-widget
                                         element:option
                                         parent:x:/../*/_event?value
                                         innerValue:x:/@split/1?name
-                                        value:/{0}/
-                                          :x:/@join?value
+                                        value:{0}
+                                          :x:/@_dp?value
 
                                 select
                                   info:Role
