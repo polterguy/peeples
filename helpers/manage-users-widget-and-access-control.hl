@@ -145,12 +145,12 @@ create-widget:peeples-users
                        * Serializing wizard form, and creating user, making sure
                        * we do it within a try/catch block, in case of exceptions.
                        */
-                      micro.widgets.wizard-form.value:peeples-add-wizard
+                      micro.form.serialize:peeples-add-wizard
 
                       /*
                        * Sanity check, verifying passwords are a match.
                        */
-                      if:x:/@micro.widgets.wizard-form.value/*(/password|/password-repeat)/=$?count
+                      if:x:/@micro.form.serialize/*(/password|/password-repeat)/=$?count
                         !=:int:1
 
                         /*
@@ -165,9 +165,9 @@ create-widget:peeples-users
                         /*
                          * Creating user.
                          */
-                        p5.auth.users.create:x:/@micro.widgets.wizard-form.value/*/username?value
-                          role:x:/@micro.widgets.wizard-form.value/*/role?value
-                          password:x:/@micro.widgets.wizard-form.value/*/password?value
+                        p5.auth.users.create:x:/@micro.form.serialize/*/username?value
+                          role:x:/@micro.form.serialize/*/role?value
+                          password:x:/@micro.form.serialize/*/password?value
 
                         /*
                          * Re-databinding users grid.
