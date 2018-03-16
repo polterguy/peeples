@@ -95,6 +95,10 @@ create-widgets
           onkeydown:@"if (event.keyCode == 13) {p5.$('peeples-edit-user-save-btn').raise('onclick');return false;}"
           title:If you leave the password blank, the password will not be changed
           autocomplete:new-password
+
+        /*
+         * Checkbox that allows user to explicitly see password(s) from above.
+         */
         checkbox
           info:Show password
           onchange
@@ -165,7 +169,7 @@ create-widgets
                     /*
                      * Adding role, which might have changed.
                      */
-                    add:x:/../*/p5.auth.users.edit
+                    add:x:/..try/*/p5.auth.users.edit
                       src:x:/@micro.form.serialize/*/role
 
                     /*
@@ -197,7 +201,11 @@ create-widgets
                     delete-widget:peeples-edit-user-modal
                     micro.windows.info:User was successfully updated
                       class:micro-windows-info success
-                    
+
+                    /*
+                     * Re-databinding users grid.
+                     */
+                    micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
 
                   catch
 
