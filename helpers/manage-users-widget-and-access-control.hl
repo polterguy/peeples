@@ -22,6 +22,16 @@ lambda2hyper:x:/-/*
 create-widget:peeples-users
   parent:peeples-main-container
   class:row
+  events
+
+
+    /*
+     * Help context Active Event.
+     */
+    desktop.help.get-context
+      return:@PEEPLES/help-files/Peeples/index.hl
+
+
   oninit
 
     /*
