@@ -30,7 +30,7 @@ such as _"user-has-access-to-hyper-ide"_ for instance.
 
 Beneath the _"user"_ parts, you'll find **[p5.module.allow]**. The `p5.module` parts is the access
 object type, which implies _"module access"_. The `allow` parts, implies that the role is granted
-access to the module `/modules/hyper-ide`, which again is simply the path to the module you want to
+access to the module `/modules/hyper-ide/`, which again is simply the path to the module you want to
 grant access to. If you exchange `allow` with `deny`, you'll instead of granting access, deny access,
 which of course is the default access for all users in your system, except the _"root"_ role.
 
@@ -96,7 +96,7 @@ add up yet another `deny` object, with something resembling the following.
   p5.io.write-file.deny:/foo/bar/some-protected-folder/
 ```
 
-The above would allow all users that are logged in, to write to all files and folders inside of
+The above would allow _all users_, including _"guest"_ users, to write to all files and folders inside of
 your _"/foo/bar/"_ folder, **except** the _"/foo/bar/some-protected-folder/"_. The reason why the last
 example works, is because access objects are _"cascading"_, which implies that they'll be alphabetically
 sorted, before traversed sequentially, to determine access rights, on their _"value"_ parts - Which is

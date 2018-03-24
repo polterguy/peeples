@@ -4,10 +4,19 @@
 h2
   innerValue:Peeples
 
+img
+  style:"margin-left:1rem; float:right;max-width: 20%;"
+  src:"https://phosphorusfive.files.wordpress.com/2018/03/peeples-icon-screenshot.png"
+
 p
   innerValue:@"Peeples is the user and access management system in Phosphorus Five. It allows you to grant
 or deny access to different parts of your system, to your users, according to which role your users
-belong to."
+belong to. The <em>'Peeples'</em> module, is the module where you secure access to your system, by granting
+and denying access to your users. In addition, it allows you to create and manage your users."
+
+p
+  innerValue:@"Its name is a play on words, implying <em>'people'</em>, while also implying a person who
+can <em>'peep'</em> into your system."
 
 
 /*

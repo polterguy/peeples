@@ -51,7 +51,7 @@ simply edit the user again, and assign it to a different role.
 **Notice** the _"root"_ role is special, and always has 100% access to the entire system. You should in general
 only have one user of type _"root"_ in your system. The _"guest"_ role is also special, since it implies a
 visitor, that is not logged into your system. Be careful when granting access to the _"guest"_ role, since it
-allows any random visitor to your page, to do whatever you assign the _"guest"_ role to be allowed to do.
+allows any random visitor to your server, to do whatever you assign the _"guest"_ role to be allowed to do.
 Hence, you cannot explicitly assign or create a user that belongs to the _"guest"_ role, since this would
 invalidate your system.
 
@@ -61,7 +61,7 @@ be found in your web.config file, under the _"phosphorus"_ section. It will be a
 of _"defaultContextRole"_. It is also illegal to create a user with the username matching the
 _"defaultContextUsername"_ from your web.config, which by default is _"guest"_.
 
-Basically, any visitor, which is not logged in on your system, will be impersonating the username
+Basically, any visitor, which is not logged into your system, will be impersonating the username
 _"guest"_ with the role being _"guest"_.
 
 ### About access
@@ -81,3 +81,8 @@ If you want to grant access to for instance Hyper IDE, to the _"user"_ role, you
 resembling the following.
 
 https://phosphorusfive.files.wordpress.com/2018/03/peeples-grant-access-screenshot.png
+
+**Notice**, your access object can easily become very complex, if you create too many access objects. This
+makes it very difficult to actually understand who has access to what, and how. Please try to keep your
+access object list as small as possible, to avoid making it impossible to actually understand, who can do
+what in your system. If you cannot understand your system's security, it is _not_ secure - Period!

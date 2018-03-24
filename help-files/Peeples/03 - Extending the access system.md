@@ -26,12 +26,17 @@ p5.auth.has-access-to-path:bool:false
  */
 if:x:/@p5.auth.has-access-to-path?value
 
-  // You have access.
+  /*
+   * You have access.
+   */
   micro.windows.info:You have access to Hyper IDE
     class:micro-windows-info success
+
 else
 
-  // You don't have access.
+  /*
+   * You don't have access.
+   */
   micro.windows.info:You don't have access to Hyper IDE
     class:micro-windows-info warning
 ```
@@ -50,12 +55,13 @@ point it will be left with only wild card access objects, and access objects whi
 the user's role.
 
 Finally, it will sort these alphabetically according to their values, making sure any wild card access
-objects comes before any access objects for specific roles.
+objects comes before any access objects for specific roles. The last point, makes sure access objects
+explicitly mentioning a role has precedence above wild card access objects.
 
 When it has done all of the above steps, all that is really left to do, is to check whether or not the
 last access object in that list is of either type `deny` or `allow`, which determines whether or not
 the user has access to the object or not. And if there are no access objects left, it will return the
-default value, provided by its caller, which for our above invoation would imply _"false"_. If there are
+default value, provided by its caller, which for our above invocation would imply _"false"_. If there are
 any access objects left in our list after the above logic has been evaluated, it will return _"true"_ if
 the last access object in that list is `allow` and _"false"_ if is is `deny`.
 
@@ -75,4 +81,4 @@ create your own access object types, which is used in for instance Hyper Core, t
 to HTTP REST based endpoints, allowing you to use the access object system, to declare whether or
 not a user has insert, select, delete and update SQL access to some database table.
 
-Please see the code for Hyper Core as an example for how to implement this yourself.
+Please see the code for Hyper Core as an example of how to implement a custom access type in your app.
