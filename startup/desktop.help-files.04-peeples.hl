@@ -1,7 +1,6 @@
-
 /*
  * Help file Active Event sink.
  */
-create-event:desktop.help-files.peeples
+create-event:desktop.help-files.04-peeples
 
   return:@PEEPLES/help-files/Peeples/
