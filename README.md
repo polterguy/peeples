@@ -4,7 +4,7 @@ This is the user management module for [Phosphorus Five](https://github.com/polt
 to create, view, edit, and delete users in your Phosphorus Five installation - In addition to explicitly granting or
 denying access to objects, such as modules, files, and folders, ets.
 
-![alt screenshot](media/screenshot-main.png)
+![alt screenshot](https://phosphorusfive.files.wordpress.com/2018/03/peeples-github-screenshot.png)
 
 ## Installation
 
