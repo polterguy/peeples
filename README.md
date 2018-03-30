@@ -1,6 +1,6 @@
 # Peeples
 
-This is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive). It allows you 
+Peeples is the user management module for [Phosphorus Five](https://github.com/polterguy/phosphorusfive). It allows you 
 to create, view, edit, and delete users in your Phosphorus Five installation - In addition to explicitly granting or
 denying access to objects, such as modules, files, and folders, ets.
 
