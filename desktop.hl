@@ -3,12 +3,11 @@
  */
 container
   element:a
-  class:desktop-app button shaded
+  class:jumbo-button
   title:Administrate your users and their rights
   widgets
+    span
+      innerValue:Peeples
     literal
       element:span
-      class:icon-users desktop-app-icon
-    span
-      class:desktop-app-text
-      innerValue:Peeples
+      class:icon-users
