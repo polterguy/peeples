@@ -59,57 +59,30 @@ p5.auth.users.list
                * Asks user to confirm deletion of user.
                */
               _username:x:/@_dn/#?name
-              eval-x:x:/+/*/*/*/h3/*/innerValue
-              create-widgets
-                micro.widgets.modal:peeples-confirm-deletion-of-user
-                  widgets
-                    h3
-                      innerValue:Confirm deletion of user '{0}'
-                        :x:/@_username?value
-                    p
-                      innerValue:Are you sure you want to delete this user? This action will delete all of user's files, and is final.
-                    div
-                      class:right
-                      widgets
-                        div
-                          class:strip
-                          widgets
-                            button
-                              innerValue:Yes
-                              onclick
+              eval-x:x:/+/*/header
+              micro.windows.confirm
+                header:Confirm deletion of user '{0}'
+                  :x:/@_username?value
+                body:Are you sure you want to delete this user? This action will delete all of user's files, and it is final.
+                onok
 
-                                /*
-                                 * Deletes user and re-databinds grid.
-                                 */
-                                _username:x:/@_dn/#?name
-                                p5.auth.users.delete:x:/@_username?value
-                                micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
+                  /*
+                   * Deletes user and re-databinds grid.
+                   */
+                  _username:x:/@_dn/#?name
+                  p5.auth.users.delete:x:/@_username?value
+                  micro.evaluate.file:@PEEPLES/helpers/databind-users.hl
 
-                                /*
-                                 * Updating available tickets count.
-                                 */
-                                peeples.tickets-update
+                  /*
+                   * Updating available tickets count.
+                   */
+                  peeples.tickets-update
 
-                                /*
-                                 * Deletes modal widget.
-                                 */
-                                delete-widget:peeples-confirm-deletion-of-user
-
-                            button
-                              innerValue:No
-                              oninit
-
-                                /*
-                                 * Making sure "No" button has initial focus.
-                                 */
-                                micro.page.set-focus:x:/../*/_event?value
-
-                              onclick
-
-                                /*
-                                 * Deletes modal widget.
-                                 */
-                                delete-widget:peeples-confirm-deletion-of-user
+                  /*
+                   * Providing feedback to user.
+                   */
+                  micro.windows.info:User was successfully deleted
+                    class:micro-windows-info success
 
   /*
    * Returning row to caller, forward evaluating [_username] inside of onclick
