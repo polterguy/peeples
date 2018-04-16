@@ -24,3 +24,14 @@ can <em>'peep'</em> into your system."
  */
 desktop.help.widgets.help-index
   folder:@PEEPLES/help-files/Peeples/
+
+
+h3
+  innerValue:Files meta information
+
+
+/*
+ * Meta information for all files in module.
+ */
+desktop.help.widgets.file-meta
+  folder:@PEEPLES/
