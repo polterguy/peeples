@@ -358,7 +358,7 @@ create-widget:peeples-users
                          * Shows a modal widget, allowing user to select module, and role.
                          */
                         create-widgets
-                          micro.widgets.modal:peeples.grant-access-wizard
+                          micro.widgets.modal:peeples-grant-access-wizard
                             widgets
                               h3
                                 innerValue:Grant access
@@ -451,7 +451,7 @@ create-widget:peeples-users
                                               /*
                                                * Deleting modal widget, and providing feedback to user.
                                                */
-                                              delete-widget:peeples.grant-access-wizard
+                                              delete-widget:peeples-grant-access-wizard
                                               micro.windows.info:Your access objects were successfully updated
                                                 class:micro-windows-info success
 
@@ -470,4 +470,4 @@ create-widget:peeples-users
                                             /*
                                              * Simply deleting modal widget.
                                              */
-                                            delete-widget:peeples.grant-access-wizard
+                                            delete-widget:peeples-grant-access-wizard
