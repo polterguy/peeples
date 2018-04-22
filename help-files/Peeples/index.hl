@@ -1,12 +1,14 @@
 /*
- * This is our main "landing page" for our Peeples help files.
+ * This is our main _"landing page"_ for our Peeples help files.
  */
 h2
   innerValue:Peeples
 
-img
-  class:desktop-help-icon-image
-  src:"https://phosphorusfive.files.wordpress.com/2018/03/peeples-icon.png"
+micro.widgets.file
+  style:"float:right; margin-left: 1rem; margin-bottom: 1rem;"
+  files
+    /modules/peeples/desktop.hl
+      href:/peeples/
 
 p
   innerValue:@"Peeples is the user and access management system in Phosphorus Five. It allows you to grant

@@ -1,7 +1,7 @@
 /*
  * Databinds the users grid.
  *
- * Optionally pass in [offset], which defaults to "0".
+ * Optionally pass in __[offset]__, which defaults to _"0"_.
  */
 .defaults
   offset:int:0

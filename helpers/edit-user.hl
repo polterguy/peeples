@@ -1,7 +1,7 @@
 /*
  * File responsible for editing an existing user.
  *
- * Requires [username] being the username of user to edit.
+ * Requires __[username]__ being the username of user to edit.
  */
 
 
