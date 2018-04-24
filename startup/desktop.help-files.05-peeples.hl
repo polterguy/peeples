@@ -1,5 +1,11 @@
+
 /*
- * Help file Active Event sink.
+ * Creates the __[desktop.help-files.05-peeples]__ Active Event.
+ */
+
+/*
+ * This event serves as a sink event for the help system, and returns the root folder path
+ * for all helpfiles for Peeples.
  */
 create-event:desktop.help-files.05-peeples
 

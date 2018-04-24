@@ -1,5 +1,10 @@
+
 /*
- * Creates our version Active Event.
+ * Creates our version Active Event for the Peeples module.
+ */
+
+/*
+ * This event returns the version number of the Peeples module.
  */
 create-event:peeples.version
 
