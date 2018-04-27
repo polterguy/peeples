@@ -1,5 +1,6 @@
 /*
- * Create the main widget showing users, and create new user button, etc.
+ * This file creates the main widget showing all users in system,
+ * and the create new user button, etc.
  */
 
 

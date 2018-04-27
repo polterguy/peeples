@@ -1,6 +1,7 @@
 /*
- * File responsible for launching Peeples, which means creating the main widget, 
- * and wire frame, for allowing a root account to administer the users in the system.
+ * This file is responsible for launching Peeples, which implies creating the main widget,
+ * and wire frame, for allowing a root account to administer the users, roles, and
+ * authorization object in the system.
  */
 
 

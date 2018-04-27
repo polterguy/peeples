@@ -1,5 +1,5 @@
 /*
- * Databinds the users grid.
+ * This file databinds the users grid.
  *
  * Optionally pass in __[offset]__, which defaults to _"0"_.
  */
