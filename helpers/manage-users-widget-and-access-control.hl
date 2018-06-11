@@ -327,14 +327,14 @@ create-widget:peeples-users
                              * User actually supplied something new.
                              */
                             hyper2lambda:x:/@micro.form.serialize/*/access?value
-                            add:x:/..try/*/p5.auth.access.set-all
+                            add:x:/..try/*/p5.auth.access.set
                               src:x:/@hyper2lambda/*
 
                           /*
                            * Updating access to whatever new value(s) the user provided, and providing some feedback
                            * to user.
                            */
-                          p5.auth.access.set-all
+                          p5.auth.access.set
                           micro.windows.info:Access objects succsessfully saved
                             class:micro-windows-info success
 

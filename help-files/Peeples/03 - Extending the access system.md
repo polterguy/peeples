@@ -3,7 +3,7 @@
 The access system is as previously said extendible. This implies that you can create your own access object
 extensions. And in fact, most of the existing access object types that exists, are simply such extensions.
 For instance, when a module is loaded by the main desktop, it will check to see if the user has access to
-that module using the Adtive Event **[p5.auth.has-access-to-path]**.
+that module using the Adtive Event **[p5.auth.has-access]**.
 
 This Active Event takes a default boolean value, a **[filter]** argument, and a **[path]** argument. The
 path typically is a URL or a file path, and the filter is the access object type, such as `p5.module`, which
@@ -16,7 +16,7 @@ for the currently logged in user's role.
 /*
  * Checking if you have access to Hyper IDE.
  */
-p5.auth.has-access-to-path:bool:false
+p5.auth.has-access:bool:false
   filter:p5.module
   path:/module/hyper-ide/
 
@@ -24,7 +24,7 @@ p5.auth.has-access-to-path:bool:false
  * Showing an information bubble window, according to
  * results of above invocation.
  */
-if:x:/@p5.auth.has-access-to-path?value
+if:x:/@p5.auth.has-access?value
 
   /*
    * You have access.
