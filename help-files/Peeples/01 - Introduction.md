@@ -31,19 +31,15 @@ in a Windows system, or the _"Home"_ folder in a Linux system.
 **Notice**, you cannot change your user's username after having initially created your user, so take care
 that you use some intuitive username as you create your users. Also, due to that each user gets his own
 folder, with the folder's name matching the username, this creates some restrictions for which characters
-you are legally allowed to use in your usernames. Also please realise that Windows and Linux have different
-semantics on files and folders. On Linux for instance, the folder _"Foo"_ is actually another physical folder
-than the folder _"foo"_ - This is **not** true for Windows. So please try to avoid creating users where the
-only difference is captializations on characters, since this creates all sorts of weird troubles as you
-move your system to and from Windows/Linux/Mac. In general, I'd encourage you to exclusively use lower case
-characters as you create your users. And in fact, Peeples will deny you to use CAPITAL letters as you create
-your users for the above reasons.
+you are legally allowed to use in your usernames. Among other things Phosphorus Five only allows you for
+these reasons to create your usernames with non-capital letters. This avoids a whole range of portability
+problems when moving your installation to and from for instance a Windows server and/or a Linux server.
 
 ### About roles
 
 Phosphorus Five's role system is fairly _"naive"_. Among other things, there are no role objects in the system,
 and the sum of roles, is actually the list of distinct roles your users belongs to. This has some advantages,
-and some disadvantages. Among other things, creating a new role, simply imply making sure one of your users
+and some disadvantages. Among other things, creating a new role, simply implies making sure one of your users
 belongs to the role you want to _"create"_. If you want to create the new role of _"foo-bar"_ for instance,
 simply edit one of your users, and make sure he or she belongs to the _"foo-bar"_ role. To delete that role,
 simply edit the user again, and assign it to a different role.
@@ -85,4 +81,4 @@ https://phosphorusfive.files.wordpress.com/2018/03/peeples-grant-access-screensh
 **Notice**, your access object can easily become very complex, if you create too many access objects. This
 makes it very difficult to actually understand who has access to what, and how. Please try to keep your
 access object list as small as possible, to avoid making it impossible to actually understand, who can do
-what in your system. If you cannot understand your system's security, it is _not_ secure - Period!
+what in your system. If you cannot understand your system's security, it is _not_ really secure!

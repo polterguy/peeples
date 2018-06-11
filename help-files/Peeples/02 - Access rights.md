@@ -107,6 +107,33 @@ this will not allow the user to write to files inside of your `/foo/bar/some-pro
 **Notice**, the user can still delete the entire `/foo/bar/` folder, even though he cannot write to
 the `/foo/bar/some-protected-folder/` folder or its files.
 
+### Access object precedence
+
+Access objects have precedence according to their structure. An explicitly named role for instance,
+will always override any _"*"_ if their paths are the same. While a _"deny"_ type of access object
+will override an _"allow"_ access object, if their paths are the same, and role names also the
+same. However, the first and most important parts to determine precedence, is the access object's
+path. An access object with a longer path will always override an access object with a shorter path.
+
+All these rules combined, allows you to finegrain access to files, modules, in addition to your own
+extended access object types. For instance, the following code would grant module access, and file
+write access to the _"power"_ role for all files inside of your _"/modules/camphora-five/"_ folder,
+unless the file's extension is _".hl"_.
+
+```hyperlambda
+power
+  p5.module.allow:/modules/hyper-ide/
+power
+  p5.io.write-file.deny:/modules/camphora-five/
+    file-type:hl
+power
+  p5.io.write-file.allow:/modules/camphora-five/
+```
+
+**Notice** how the order of your above access objects doesn't matter above. Any files ending
+with _".hl"_ will still not be possible to save for a _"power"_ type of user. While any other
+files inside of the _"/modules/camphora-five/"_ folder can be saved by the _"power"_ user.
+
 ### Access object types
 
 Listing all the possible access types in your system, is impossible, since the access object
@@ -124,6 +151,22 @@ access objects types.
 * __[p5.system.platform.execute-file.allow]__ - Allows execute shell file permission for some specified path
 * __[p5.system.platform.execute-file.deny]__ - Denies execute shell file permission for some specified path
 
+An access object can also be explicitly parametrized, such as illustrated in the above
+example, and they can either be given a **[file-type]** argument, or a **[folder]** argument. If you
+provide a **[file-type]** argument, you can list all file types separated by pipe (|) to have
+your access object only be relevant for a specific file type. For instance, to only allow the
+_"designer"_ user to write to files ending with _".html"_ and _".css"_, you could create an
+access object resembling the following.
+
+```hyperlambda
+designer
+  p5.io.write-file.allow:/modules/camphora-five/
+    file-type:css|html
+```
+
+If you provide a **[folder]** argument, and set its value to boolean _"true"_, the **[path]** you're
+trying to access will only be matched towards your access object if it ends with a _"/"_ character.
+
 ### Default access
 
 By default, your system is setup such that a _"root"_ account can do everything, and in fact, explicitly
@@ -134,11 +177,21 @@ needs to execute for some reasons. So contrary to on Linux, there doesn't exist 
 _"execute file"_ Hyperlambda permission access object types. This would not be possible either,
 since Hyperlambda is a functional programming language, and as long as some user can read a file,
 he can simply read that file's content, transform it into Hyperlambda, and then evaluate the resulting
-lambda object.
+lambda object. However, since access is arguably determined at a _"lower"_ level than at the
+execution level of evaluation objects, this is arguably irrelevant, but might feel unintuitive in the
+beginning until you get used to it. You can also restrict a user's ability to execute code on your
+server, by making sure you use **[eval-whitelist]** instead of **[eval]** when executing code
+you are not certain about whether or not is safe.
 
 For all non-root account types, the only files the user can write to, are his personal files, inside
-of the user's _"home"_ folder, in the _"/users/xxx-username-xxx/"_ folder, in addition to all files
+of the user's _"home"_ folder, in the _"/users/username/"_ folder, in addition to all files
 inside of the _"/common/"_ folder, which are files common to all users.
+
+Due to the above paragraph, you should as a general rule never allow a user to execute Hyperlambda
+files, neither from the _"/common/"_ folder, nor from the _"/users/"_ folder, unless using the
+**[eval-whitelist]** event securely, to avoid having any random user execute a malicious piece
+of code in your server. There are no places in Phosphorus Five where this is being done though,
+unless you explicitly create this type of logic yourself, in your own code.
 
 **Notice**, for a _"guest"_ account, his _"home"_ folder actually **is** the _"/common/"_ folder.
 
