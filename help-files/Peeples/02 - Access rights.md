@@ -152,11 +152,11 @@ access objects types.
 * __[p5.system.platform.execute-file.deny]__ - Denies execute shell file permission for some specified path
 
 An access object can also be explicitly parametrized, such as illustrated in the above
-example, and they can either be given a **[file-type]** argument, or a **[folder]** argument. If you
-provide a **[file-type]** argument, you can list all file types separated by pipe (|) to have
-your access object only be relevant for a specific file type. For instance, to only allow the
-_"designer"_ user to write to files ending with _".html"_ and _".css"_, you could create an
-access object resembling the following.
+example, and they can either be given a **[file-type]** argument, a **[folder]** argument, or
+an **[exact]** argument. If you provide a **[file-type]** argument, you can list all file types
+separated by pipe (|) to have your access object only be relevant for a specific file type.
+For instance, to only allow the _"designer"_ user to write to files ending with _".html"_ and
+_".css"_, you could create an access object resembling the following.
 
 ```hyperlambda
 designer
@@ -166,6 +166,10 @@ designer
 
 If you provide a **[folder]** argument, and set its value to boolean _"true"_, the **[path]** you're
 trying to access will only be matched towards your access object if it ends with a _"/"_ character.
+
+While if you set **[exact]** to true, the access object will only be a match if the path that is
+being checked is an _exact match_. Hence, this allows you to turn _off_ the cascading effects that
+your access objects normally applies when checking for a match.
 
 ### Default access
 
