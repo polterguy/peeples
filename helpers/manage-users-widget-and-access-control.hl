@@ -11,6 +11,7 @@
  * Retrieving all access rights, such that we can databind our access rights editor.
  */
 p5.auth.access.list
+  guids:false
 lambda2hyper:x:/-/*
 
 
@@ -442,6 +443,7 @@ create-widget:peeples-users
                                               p5.web.widgets.find-first:peeples.access-rights
                                                 element:textarea
                                               p5.auth.access.list
+                                                guids:false
                                               lambda2hyper:x:/@p5.auth.access.list/*
                                               set-widget-property:x:/@p5.web.widgets.find-first/*/*?value
                                                 value:x:/@lambda2hyper?value
