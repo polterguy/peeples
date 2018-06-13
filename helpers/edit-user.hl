@@ -134,6 +134,22 @@ create-widgets
                 onclick
 
                   /*
+                   * Creating a cover widget, since editing s user might take time,
+                   * if his password is being changed.
+                   */
+                  create-widgets
+                    micro.widgets.cover:peeples-cover-widget
+                      message:Please wait while I update the user ...
+                  p5.web.send-javascript:@"p5.$('peeples-edit-user-save-btn').raise('.onclick');"
+
+                .onclick
+
+                  /*
+                   * Deleting cover widget.
+                   */
+                  delete-widget:peeples-cover-widget
+
+                  /*
                    * Wrapping everything inside a trye/catch block, in case an exception occurs.
                    */
                   try
